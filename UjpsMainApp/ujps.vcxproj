@@ -128,13 +128,9 @@
     <PostBuildEvent>
       <Command>$(QTDIR)\bin\windeployqt.exe "$(OutDir)$(TargetName)$(TargetExt)"
 copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.dll" "$(OutDir)"
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.pdb" "$(OutDir)"
 copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\RealJoysticks\$(Configuration)\realJoysticks.dll" "$(OutDir)"
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\RealJoysticks\$(Configuration)\realJoysticks.pdb" "$(OutDir)"
 copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\VirtualJoysticks\$(Configuration)\virtualJoysticks.dll" "$(OutDir)"
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\VirtualJoysticks\$(Configuration)\virtualJoysticks.pdb" "$(OutDir)"
 copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\UjpsCore\$(Configuration)\ujpsCore.dll" "$(OutDir)"
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\UjpsCore\$(Configuration)\ujpsCore.pdb" "$(OutDir)"
 copy /Y "$(ProjectDir)..\vJoy218SDK-291116\SDK\lib\amd64\vJoyInterface.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

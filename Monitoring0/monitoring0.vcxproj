@@ -127,8 +127,7 @@
     </QtRcc>
     <PostBuildEvent>
       <Command>$(QTDIR)\bin\windeployqt.exe $(OutDir)$(TargetName)$(TargetExt)
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.dll" "$(OutDir)"
-copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.pdb" "$(OutDir)"</Command>
+copy /Y "$(ProjectDir)..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
