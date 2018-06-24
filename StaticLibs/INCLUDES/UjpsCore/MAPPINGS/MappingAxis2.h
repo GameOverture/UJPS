@@ -3,11 +3,12 @@
 
 
 #include "AbstractMapping.h"
+#include "ujpscore-global.h"
 #include <vector>
 class AbstractAction;
 
 
-class MappingAxis2 : public AbstractMapping
+class UJPSCORE_EXPORT MappingAxis2 : public AbstractMapping
 {
 	public:
 		MappingAxis2(AbstractRealJoystick *rj, uint rAxis, LayersCombo lc,

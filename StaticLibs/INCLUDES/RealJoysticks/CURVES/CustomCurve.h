@@ -3,10 +3,11 @@
 
 
 #include "AbstractAxisCurve.h"
+#include "realjoysticks-global.h"
 #include <vector>
 
 
-class CustomCurve : public AbstractAxisCurve
+class REALJOYSTICKS_EXPORT CustomCurve : public AbstractAxisCurve
 {
 	public:
 		CustomCurve(const std::vector<float> &points);

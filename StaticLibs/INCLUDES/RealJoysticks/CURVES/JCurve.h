@@ -3,9 +3,10 @@
 
 
 #include "AbstractAxisCurve.h"
+#include "realjoysticks-global.h"
 
 
-class JCurve : public AbstractAxisCurve
+class REALJOYSTICKS_EXPORT JCurve : public AbstractAxisCurve
 {
 	public:
 		JCurve(float zoom);

@@ -3,9 +3,10 @@
 
 
 #include "AbstractAxisCurve.h"
+#include "realjoysticks-global.h"
 
 
-class SCurve : public AbstractAxisCurve
+class REALJOYSTICKS_EXPORT SCurve : public AbstractAxisCurve
 {
 	public:
 		SCurve(float leftDZ, float centerDZ, float rightDZ, float curveParam, float zoom);

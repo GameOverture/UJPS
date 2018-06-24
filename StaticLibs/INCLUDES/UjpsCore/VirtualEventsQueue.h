@@ -4,8 +4,9 @@
 
 #include <QVector>
 #include "VirtualEvent.h"
+#include "ujpscore-global.h"
 
-class VirtualEventsQueue
+class UJPSCORE_EXPORT VirtualEventsQueue
 {
 	public:
 		VirtualEventsQueue() = default;

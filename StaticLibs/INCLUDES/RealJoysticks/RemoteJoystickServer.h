@@ -5,13 +5,16 @@
 #include <QObject>
 #include <QColor>
 #include "AbstractRealJoystick.h"
+#include "realjoysticks-global.h"
+
+#include <array>
 
 class QTcpServer;
 class QNetworkSession;
 class QTcpSocket;
 
 
-class RemoteJoystickServer : public QObject, public AbstractRealJoystick
+class REALJOYSTICKS_EXPORT RemoteJoystickServer : public QObject, public AbstractRealJoystick
 {
 	Q_OBJECT
 	Q_INTERFACES(AbstractRealJoystick)

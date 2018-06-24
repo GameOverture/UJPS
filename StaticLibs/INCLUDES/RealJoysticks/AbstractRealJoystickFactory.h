@@ -4,11 +4,12 @@
 
 #include <QObject>
 #include <QString>
+#include "realjoysticks-global.h"
 class AbstractRealJoystick;
 class QGameController;
 
 
-class AbstractRealJoystickFactory
+class REALJOYSTICKS_EXPORT AbstractRealJoystickFactory
 {
 	public:
 		AbstractRealJoystickFactory() = default;

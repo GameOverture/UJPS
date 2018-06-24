@@ -1,14 +1,27 @@
+#CONFIG(debug, debug|release) {
+#	DESTDIR = debug
+#	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/debug/libQtGameControllerModif.a \
+#			../StaticLibs/SOURCES/VirtualJoysticks/debug/libvirtualJoysticks.a \
+#			../StaticLibs/SOURCES/UjpsCore/debug/libujpsCore.a
+#}
+#CONFIG(release, debug|release) {
+#	DESTDIR = release
+#	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/release/libQtGameControllerModif.a \
+#			../StaticLibs/SOURCES/VirtualJoysticks/release/libvirtualJoysticks.a \
+#			../StaticLibs/SOURCES/UjpsCore/release/libujpsCore.a
+#}
+
 CONFIG(debug, debug|release) {
-	DESTDIR = debug
-	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/debug/libQtGameControllerModif.a \
-			../StaticLibs/SOURCES/VirtualJoysticks/debug/libvirtualJoysticks.a \
-			../StaticLibs/SOURCES/UjpsCore/debug/libujpsCore.a
+        DESTDIR = debug
+        LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/vs2017/QtGameControllerModif.lib \
+                        ../StaticLibs/SOURCES/VirtualJoysticks/vs2017/virtualJoysticks.lib \
+                        ../StaticLibs/SOURCES/UjpsCore/vs2017/ujpsCore.lib
 }
 CONFIG(release, debug|release) {
-	DESTDIR = release
-	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/release/libQtGameControllerModif.a \
-			../StaticLibs/SOURCES/VirtualJoysticks/release/libvirtualJoysticks.a \
-			../StaticLibs/SOURCES/UjpsCore/release/libujpsCore.a
+        DESTDIR = release
+        LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/vs2017/QtGameControllerModif.lib \
+                        ../StaticLibs/SOURCES/VirtualJoysticks/vs2017/virtualJoysticks.lib \
+                        ../StaticLibs/SOURCES/UjpsCore/vs2017/ujpsCore.lib
 }
 
 
@@ -22,6 +35,7 @@ DEFINES -= QT_NO_DEBUG
 
 
 LIBS += ../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
+LIBS += ../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 
 INCLUDEPATH +=  ../StaticLibs/INCLUDES/QtGameControllerModif/ \
 				../StaticLibs/INCLUDES/Other/ \

@@ -3,10 +3,11 @@
 
 
 #include "AbstractMapping.h"
+#include "ujpscore-global.h"
 class AbstractAction;
 
 
-class MappingTempo : public AbstractMapping
+class UJPSCORE_EXPORT MappingTempo : public AbstractMapping
 {
 	public:
 		MappingTempo(AbstractRealJoystick *rj, uint rButton, LayersCombo lc,

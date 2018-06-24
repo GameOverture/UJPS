@@ -12,6 +12,7 @@
 #include "LAYERS/LayerCalculator.h"
 #include "VirtualEventsQueue.h"
 #include "AxisDirection.h"
+#include "ujpscore-global.h"
 
 class RealJoysticksManager;
 class AbstractRealJoystick;
@@ -23,7 +24,7 @@ class AbstractTrigger;
 class AbstractAction;
 
 
-class AbstractProfile : public QObject
+class UJPSCORE_EXPORT AbstractProfile : public QObject
 {
 	Q_OBJECT
 	

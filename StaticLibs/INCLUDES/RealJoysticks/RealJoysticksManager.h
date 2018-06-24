@@ -5,13 +5,14 @@
 #include <QVector>
 #include <QStringList>
 #include <QColor>
+#include "realjoysticks-global.h"
 class AbstractRealJoystick;
 class AbstractRealJoystickFactory;
 class QGameController;
 class QPluginLoader;
 
 
-class RealJoysticksManager : public QObject
+class REALJOYSTICKS_EXPORT RealJoysticksManager : public QObject
 {
 	Q_OBJECT
 	

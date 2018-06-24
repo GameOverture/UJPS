@@ -3,11 +3,12 @@
 
 
 #include "Layer.h"
+#include "ujpscore-global.h"
 #include <vector>
 #include <QString>
 
 
-class LayersCombo
+class UJPSCORE_EXPORT LayersCombo
 {
 	public:
 		LayersCombo();

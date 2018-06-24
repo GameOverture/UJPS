@@ -3,6 +3,7 @@
 
 
 #include "Layer.h"
+#include "ujpscore-global.h"
 #include <vector>
 #include <tuple>
 #include <algorithm>
@@ -12,7 +13,7 @@ using Dim1Binding = std::tuple<Layers::LayerDim1,AbstractRealJoystick*,uint>;
 using Dim2Binding = std::tuple<Layers::LayerDim2,AbstractRealJoystick*,uint>;
 
 
-class LayerCalculator
+class UJPSCORE_EXPORT LayerCalculator
 {
 	public:
 		LayerCalculator();

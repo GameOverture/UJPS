@@ -4,11 +4,12 @@
 
 #include "AbstractRealJoystick.h"
 #include "AbsoluteOrRelative.h"
+#include "realjoysticks-global.h"
 #include <array>
 class AbstractAxisCurve;
 
 
-class EnhancedJoystick : public AbstractRealJoystick
+class REALJOYSTICKS_EXPORT EnhancedJoystick : public AbstractRealJoystick
 {
 	public:
 		EnhancedJoystick(AbstractRealJoystick *j, bool bOwn = true);

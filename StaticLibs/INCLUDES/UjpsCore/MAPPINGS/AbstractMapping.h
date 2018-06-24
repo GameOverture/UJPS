@@ -5,10 +5,11 @@
 #include "JoystickChange.h"
 #include "../LAYERS/LayersCombo.h"
 #include "../VirtualEventsQueue.h"
+#include "ujpscore-global.h"
 class AbstractRealJoystick;
 
 
-class AbstractMapping
+class UJPSCORE_EXPORT AbstractMapping
 {
 	public:
 		AbstractMapping(LayersCombo lc, VirtualEventsQueue &eventsQueue) :

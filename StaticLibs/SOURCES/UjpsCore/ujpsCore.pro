@@ -9,6 +9,12 @@ CONFIG(release, debug|release) {
 	LIBS += ../VirtualJoysticks/release/libvirtualJoysticks.a
 }
 
+CONFIG(release, debug|release) {
+        DESTDIR = release
+        LIBS += ../RealJoysticks/vs2017/realJoysticks.lib
+        LIBS += ../VirtualJoysticks/vs2017/virtualJoysticks.lib
+}
+
 
 TEMPLATE = lib
 TARGET = ujpsCore
@@ -16,7 +22,12 @@ OBJECTS_DIR = $$DESTDIR/objects
 MOC_DIR = $$DESTDIR/moc
 CONFIG += c++11
 
-LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
+DEFINES += UJPSCORE_LIBRARY
+
+LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
+
+win32:CONFIG(release, debug|release): LIBS += -luser32
+else:win32:CONFIG(debug, debug|release): LIBS += -luser32
 
 INCLUDEPATH +=  ../../INCLUDES/Other/ \
 				../../INCLUDES/VirtualJoysticks/ \
@@ -32,7 +43,8 @@ HEADERS +=  ../../INCLUDES/UjpsCore/AbstractProfile.h \
 			../../INCLUDES/UjpsCore/MAPPINGS/MappingTempo.h \
 			../../INCLUDES/UjpsCore/MAPPINGS/MappingAxisRelative.h \
 			../../INCLUDES/UjpsCore/MAPPINGS/MappingAxis1.h \
-			../../INCLUDES/UjpsCore/MAPPINGS/MappingAxis2.h
+			../../INCLUDES/UjpsCore/MAPPINGS/MappingAxis2.h \
+    ../../INCLUDES/UjpsCore/ujpscore-global.h
 
 
 SOURCES +=  CODE/AbstractProfile.cpp \

@@ -7,6 +7,11 @@ CONFIG(release, debug|release) {
 	LIBS += ../QtGameControllerModif/release/libQtGameControllerModif.a
 }
 
+CONFIG(release, debug|release) {
+        DESTDIR = release
+        LIBS += ../QtGameControllerModif/vs2017/QtGameControllerModif.lib
+}
+
 
 TEMPLATE = lib
 TARGET = realJoysticks
@@ -14,6 +19,8 @@ OBJECTS_DIR = $$DESTDIR/objects
 MOC_DIR = $$DESTDIR/moc
 CONFIG += c++11
 QT += network
+
+DEFINES += REALJOYSTICKS_LIBRARY
 
 INCLUDEPATH +=  ../../INCLUDES/QtGameControllerModif/ \
 				../../INCLUDES/Other/ \
@@ -23,7 +30,8 @@ INCLUDEPATH +=  ../../INCLUDES/QtGameControllerModif/ \
 HEADERS +=  ../../INCLUDES/RealJoysticks/AbstractRealJoystickFactory.h \
 			../../INCLUDES/RealJoysticks/RealJoysticksManager.h \
 			../../INCLUDES/RealJoysticks/RealJoystick.h \
-			../../INCLUDES/RealJoysticks/RemoteJoystickServer.h
+			../../INCLUDES/RealJoysticks/RemoteJoystickServer.h \
+    ../../INCLUDES/RealJoysticks/realjoysticks-global.h
 
 
 SOURCES +=  CODE/RealJoysticksManager.cpp \

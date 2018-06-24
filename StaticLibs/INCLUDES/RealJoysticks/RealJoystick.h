@@ -5,6 +5,7 @@
 #include <QObject>
 #include "AbstractRealJoystick.h"
 #include "VirtualPovDefinition.h"
+#include "realjoysticks-global.h"
 class QGameController;
 class QGameControllerButtonEvent;
 class QGameControllerAxisEvent;
@@ -12,7 +13,7 @@ class QGameControllerPovEvent;
 class RealJoysticksManager;
 
 
-class RealJoystick : public QObject, public AbstractRealJoystick
+class REALJOYSTICKS_EXPORT RealJoystick : public QObject, public AbstractRealJoystick
 {
 	Q_OBJECT
 	Q_INTERFACES(AbstractRealJoystick)

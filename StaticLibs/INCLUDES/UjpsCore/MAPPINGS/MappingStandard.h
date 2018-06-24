@@ -3,11 +3,12 @@
 
 
 #include "AbstractMapping.h"
+#include "ujpscore-global.h"
 class AbstractTrigger;
 class AbstractAction;
 
 
-class MappingStandard : public AbstractMapping
+class UJPSCORE_EXPORT MappingStandard : public AbstractMapping
 {
 	public:
 		MappingStandard(AbstractRealJoystick *rj, ControlType t, uint rnum, LayersCombo lc,
