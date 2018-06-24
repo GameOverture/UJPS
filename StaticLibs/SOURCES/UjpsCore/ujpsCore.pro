@@ -11,13 +11,13 @@ win32-g++:CONFIG(release, debug|release) {
 	LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
 
-win32:CONFIG(debug, debug|release) {
+win32-msvc*:CONFIG(debug, debug|release) {
     DESTDIR = debug
     LIBS += ../RealJoysticks/debug/realJoysticks.lib
     LIBS += ../VirtualJoysticks/debug/virtualJoysticks.lib
 	LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 }
-win32:CONFIG(release, debug|release) {
+win32-msvc*:CONFIG(release, debug|release) {
     DESTDIR = release
     LIBS += ../RealJoysticks/release/realJoysticks.lib
     LIBS += ../VirtualJoysticks/release/virtualJoysticks.lib
@@ -33,8 +33,8 @@ CONFIG += c++11
 
 DEFINES += UJPSCORE_LIBRARY
 
-win32:CONFIG(release, debug|release): LIBS += -luser32
-else:win32:CONFIG(debug, debug|release): LIBS += -luser32
+win32-msvc*:CONFIG(release, debug|release): LIBS += -luser32
+else:win32-msvc*:CONFIG(debug, debug|release): LIBS += -luser32
 
 INCLUDEPATH +=  ../../INCLUDES/Other/ \
 				../../INCLUDES/VirtualJoysticks/ \
