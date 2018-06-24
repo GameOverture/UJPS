@@ -1,10 +1,20 @@
-CONFIG(debug, debug|release) {
+win32-g++:CONFIG(debug, debug|release) {
 	DESTDIR = debug
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
-CONFIG(release, debug|release) {
+win32-g++:CONFIG(release, debug|release) {
 	DESTDIR = release
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
 
+win32:CONFIG(debug, debug|release) {
+    DESTDIR = debug
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
+}
+win32:CONFIG(release, debug|release) {
+    DESTDIR = release
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
+}
 
 TEMPLATE = lib
 TARGET = virtualJoysticks
@@ -13,8 +23,6 @@ MOC_DIR = $$DESTDIR/moc
 CONFIG += c++11
 
 DEFINES += VIRTUALJOYSTICKS_LIBRARY
-
-LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 
 INCLUDEPATH +=  ../../INCLUDES/Other/ \
 				../../INCLUDES/VirtualJoysticks/

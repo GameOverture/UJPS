@@ -16,9 +16,7 @@ QT = core
 DEFINES += QGAMECONTROLLER_LIBRARY
 
 win32-g++:LIBS += -ldinput8 -ldxguid
-
-win32:CONFIG(release, debug|release): LIBS += -ldinput8 -ldxguid
-else:win32:CONFIG(debug, debug|release): LIBS += -ldinput8 -ldxguid
+win32:LIBS += -ldinput8 -ldxguid
 
 INCLUDEPATH +=  ../../INCLUDES/QtGameControllerModif
 

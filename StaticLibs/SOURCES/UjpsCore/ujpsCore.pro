@@ -1,18 +1,27 @@
-CONFIG(debug, debug|release) {
+win32-g++:CONFIG(debug, debug|release) {
 	DESTDIR = debug
 	LIBS += ../RealJoysticks/debug/librealJoysticks.a
 	LIBS += ../VirtualJoysticks/debug/libvirtualJoysticks.a
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
-CONFIG(release, debug|release) {
+win32-g++:CONFIG(release, debug|release) {
 	DESTDIR = release
 	LIBS += ../RealJoysticks/release/librealJoysticks.a
 	LIBS += ../VirtualJoysticks/release/libvirtualJoysticks.a
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
 
-CONFIG(release, debug|release) {
-        DESTDIR = release
-        LIBS += ../RealJoysticks/vs2017/realJoysticks.lib
-        LIBS += ../VirtualJoysticks/vs2017/virtualJoysticks.lib
+win32:CONFIG(debug, debug|release) {
+    DESTDIR = debug
+    LIBS += ../RealJoysticks/debug/realJoysticks.lib
+    LIBS += ../VirtualJoysticks/debug/virtualJoysticks.lib
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
+}
+win32:CONFIG(release, debug|release) {
+    DESTDIR = release
+    LIBS += ../RealJoysticks/release/realJoysticks.lib
+    LIBS += ../VirtualJoysticks/release/virtualJoysticks.lib
+	LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 }
 
 
@@ -23,8 +32,6 @@ MOC_DIR = $$DESTDIR/moc
 CONFIG += c++11
 
 DEFINES += UJPSCORE_LIBRARY
-
-LIBS += ../../../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 
 win32:CONFIG(release, debug|release): LIBS += -luser32
 else:win32:CONFIG(debug, debug|release): LIBS += -luser32

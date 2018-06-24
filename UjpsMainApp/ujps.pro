@@ -1,27 +1,31 @@
-#CONFIG(debug, debug|release) {
-#	DESTDIR = debug
-#	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/debug/libQtGameControllerModif.a \
-#			../StaticLibs/SOURCES/VirtualJoysticks/debug/libvirtualJoysticks.a \
-#			../StaticLibs/SOURCES/UjpsCore/debug/libujpsCore.a
-#}
-#CONFIG(release, debug|release) {
-#	DESTDIR = release
-#	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/release/libQtGameControllerModif.a \
-#			../StaticLibs/SOURCES/VirtualJoysticks/release/libvirtualJoysticks.a \
-#			../StaticLibs/SOURCES/UjpsCore/release/libujpsCore.a
-#}
-
-CONFIG(debug, debug|release) {
-        DESTDIR = debug
-        LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/vs2017/QtGameControllerModif.lib \
-                        ../StaticLibs/SOURCES/VirtualJoysticks/vs2017/virtualJoysticks.lib \
-                        ../StaticLibs/SOURCES/UjpsCore/vs2017/ujpsCore.lib
+win32-g++:CONFIG(debug, debug|release) {
+	DESTDIR = debug
+	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/debug/libQtGameControllerModif.a \
+			../StaticLibs/SOURCES/VirtualJoysticks/debug/libvirtualJoysticks.a \
+			../StaticLibs/SOURCES/UjpsCore/debug/libujpsCore.a \
+            ../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
 }
-CONFIG(release, debug|release) {
-        DESTDIR = release
-        LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/vs2017/QtGameControllerModif.lib \
-                        ../StaticLibs/SOURCES/VirtualJoysticks/vs2017/virtualJoysticks.lib \
-                        ../StaticLibs/SOURCES/UjpsCore/vs2017/ujpsCore.lib
+win32-g++:CONFIG(release, debug|release) {
+	DESTDIR = release
+	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/release/libQtGameControllerModif.a \
+			../StaticLibs/SOURCES/VirtualJoysticks/release/libvirtualJoysticks.a \
+			../StaticLibs/SOURCES/UjpsCore/release/libujpsCore.a \
+            ../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
+}
+
+win32:CONFIG(debug, debug|release) {
+	DESTDIR = debug
+	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/debug/libQtGameControllerModif.lib \
+			../StaticLibs/SOURCES/VirtualJoysticks/debug/libvirtualJoysticks.lib \
+			../StaticLibs/SOURCES/UjpsCore/debug/libujpsCore.lib \
+            ../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
+}
+win32:CONFIG(release, debug|release) {
+	DESTDIR = release
+	LIBS += ../StaticLibs/SOURCES/QtGameControllerModif/release/libQtGameControllerModif.lib \
+			../StaticLibs/SOURCES/VirtualJoysticks/release/libvirtualJoysticks.lib \
+			../StaticLibs/SOURCES/UjpsCore/release/libujpsCore.lib \
+            ../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 }
 
 
@@ -33,9 +37,6 @@ MOC_DIR = $$DESTDIR/moc
 QT = core xmlpatterns gui widgets
 DEFINES -= QT_NO_DEBUG
 
-
-LIBS += ../vJoy218SDK-291116/SDK/lib/vJoyInterface.lib
-LIBS += ../vJoy218SDK-291116/SDK/lib/amd64/vJoyInterface.lib
 
 INCLUDEPATH +=  ../StaticLibs/INCLUDES/QtGameControllerModif/ \
 				../StaticLibs/INCLUDES/Other/ \
