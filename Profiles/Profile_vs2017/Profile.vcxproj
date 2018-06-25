@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E59946E9-AA9C-3D38-BE59-E9423102E4E3}</ProjectGuid>
-    <RootNamespace>StarCitizen_vs2017</RootNamespace>
+    <ProjectGuid>{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}</ProjectGuid>
+    <RootNamespace>Profile</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.17134.0</WindowsTargetPlatformMinVersion>
@@ -25,7 +25,7 @@
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <IntermediateDirectory>release\objects\</IntermediateDirectory>
-    <PrimaryOutput>StarCitizen_vs2017</PrimaryOutput>
+    <PrimaryOutput>Profile</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <PlatformToolset>v141</PlatformToolset>
@@ -34,7 +34,7 @@
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <IntermediateDirectory>debug\objects\</IntermediateDirectory>
-    <PrimaryOutput>StarCitizen_vs2017</PrimaryOutput>
+    <PrimaryOutput>Profile</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
@@ -55,19 +55,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\obj\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">StarCitizen_vs2017</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Profile</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\obj\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">StarCitizen_vs2017</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Profile</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(ProjectDir)..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\StaticLibs\INCLUDES\Other;$(ProjectDir)..\..\StaticLibs\INCLUDES\VirtualJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\UjpsCore;$(ProjectDir)..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)$(Configuration)\moc;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\StaticLibs\INCLUDES\QtGameControllerModif;..\..\StaticLibs\INCLUDES\Other;..\..\StaticLibs\INCLUDES\VirtualJoysticks;..\..\StaticLibs\INCLUDES\RealJoysticks;..\..\StaticLibs\INCLUDES\UjpsCore;..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;CODE\moc;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\objects\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -86,14 +86,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.lib;..\..\StaticLibs\SOURCES\RealJoysticks\$(Configuration)\realJoysticks.lib;..\..\StaticLibs\SOURCES\VirtualJoysticks\$(Configuration)\virtualJoysticks.lib;..\..\StaticLibs\SOURCES\UjpsCore\$(Configuration)\ujpsCore.lib;..\..\vJoy218SDK-291116\SDK\lib\amd64\vJoyInterface.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\StaticLibs\SOURCES\QtGameControllerModif\release\QtGameControllerModif.lib;..\..\StaticLibs\SOURCES\RealJoysticks\release\realJoysticks.lib;..\..\StaticLibs\SOURCES\VirtualJoysticks\release\virtualJoysticks.lib;..\..\StaticLibs\SOURCES\UjpsCore\release\ujpsCore.lib;..\..\vJoy218SDK-291116\SDK\lib\amd64\vJoyInterface.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkDLL>true</LinkDLL>
       <LinkIncremental>false</LinkIncremental>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)\Profile.dll</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -109,18 +109,18 @@
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <InputFile>%(FullPath)</InputFile>
-      <OutputFile>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <IncludePath>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(ProjectDir)..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\StaticLibs\INCLUDES\Other;$(ProjectDir)..\..\StaticLibs\INCLUDES\VirtualJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\UjpsCore;$(ProjectDir)..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)$(Configuration)\moc;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/win32-msvc;.;C:/Soft/UJPS/StaticLibs/INCLUDES/QtGameControllerModif;C:/Soft/UJPS/StaticLibs/INCLUDES/Other;C:/Soft/UJPS/StaticLibs/INCLUDES/VirtualJoysticks;C:/Soft/UJPS/StaticLibs/INCLUDES/RealJoysticks;C:/Soft/UJPS/StaticLibs/INCLUDES/UjpsCore;C:/Soft/UJPS/ControllersPlugins/INCLUDES;$(QTDIR)\include;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.14.26428\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.14.26428\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;QT_PLUGIN;QT_GUI_LIB;QT_CORE_LIB</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
-      <Include>$(Configuration)/moc/moc_predefs.h</Include>
+      <Include>CODE/moc/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(ProjectDir)..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\StaticLibs\INCLUDES\Other;$(ProjectDir)..\..\StaticLibs\INCLUDES\VirtualJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\UjpsCore;$(ProjectDir)..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)$(Configuration)\moc;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\StaticLibs\INCLUDES\QtGameControllerModif;..\..\StaticLibs\INCLUDES\Other;..\..\StaticLibs\INCLUDES\VirtualJoysticks;..\..\StaticLibs\INCLUDES\RealJoysticks;..\..\StaticLibs\INCLUDES\UjpsCore;..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;CODE\moc;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\objects\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -139,13 +139,13 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\..\StaticLibs\SOURCES\QtGameControllerModif\$(Configuration)\QtGameControllerModif.lib;..\..\StaticLibs\SOURCES\RealJoysticks\$(Configuration)\realJoysticks.lib;..\..\StaticLibs\SOURCES\VirtualJoysticks\$(Configuration)\virtualJoysticks.lib;..\..\StaticLibs\SOURCES\UjpsCore\$(Configuration)\ujpsCore.lib;..\..\vJoy218SDK-291116\SDK\lib\amd64\vJoyInterface.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\StaticLibs\SOURCES\QtGameControllerModif\debug\QtGameControllerModif.lib;..\..\StaticLibs\SOURCES\RealJoysticks\debug\realJoysticks.lib;..\..\StaticLibs\SOURCES\VirtualJoysticks\debug\virtualJoysticks.lib;..\..\StaticLibs\SOURCES\UjpsCore\debug\ujpsCore.lib;..\..\vJoy218SDK-291116\SDK\lib\amd64\vJoyInterface.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkDLL>true</LinkDLL>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)\Profile.dll</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -161,11 +161,11 @@
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <InputFile>%(FullPath)</InputFile>
-      <OutputFile>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <IncludePath>$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(ProjectDir)..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\StaticLibs\INCLUDES\Other;$(ProjectDir)..\..\StaticLibs\INCLUDES\VirtualJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\StaticLibs\INCLUDES\UjpsCore;$(ProjectDir)..\..\ControllersPlugins\INCLUDES;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)$(Configuration)\moc;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/win32-msvc;.;C:/Soft/UJPS/StaticLibs/INCLUDES/QtGameControllerModif;C:/Soft/UJPS/StaticLibs/INCLUDES/Other;C:/Soft/UJPS/StaticLibs/INCLUDES/VirtualJoysticks;C:/Soft/UJPS/StaticLibs/INCLUDES/RealJoysticks;C:/Soft/UJPS/StaticLibs/INCLUDES/UjpsCore;C:/Soft/UJPS/ControllersPlugins/INCLUDES;$(QTDIR)\include;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.14.26428\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.14.26428\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17134.0\cppwinrt</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QT_GUI_LIB;QT_CORE_LIB</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
-      <Include>$(Configuration)/moc/moc_predefs.h</Include>
+      <Include>CODE/moc/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
     </QtMoc>
@@ -178,25 +178,17 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="debug\moc\moc_predefs.h.cbt">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc\moc_predefs.h</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\moc\moc_predefs.h;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="release\moc\moc_predefs.h.cbt">
+    <CustomBuild Include="CODE\moc\moc_predefs.h.cbt">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc\moc_predefs.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;CODE\moc\moc_predefs.h</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\moc\moc_predefs.h;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CODE\moc\moc_predefs.h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;CODE\moc\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CODE\moc\moc_predefs.h;%(Outputs)</Outputs>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CODE\StarCitizenControls.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

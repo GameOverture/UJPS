@@ -33,12 +33,12 @@ win32-msvc*:CONFIG(release, debug|release) {
 }
 
 TEMPLATE = lib
-TARGET = StarCitizen_vs2017
+TARGET = Profile
 DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += plugin c++11
 OBJECTS_DIR = $$DESTDIR/objects
-MOC_DIR = $$DESTDIR/moc
+MOC_DIR = CODE/moc
 
 
 INCLUDEPATH +=  ../../StaticLibs/INCLUDES/QtGameControllerModif/ \
@@ -48,8 +48,6 @@ INCLUDEPATH +=  ../../StaticLibs/INCLUDES/QtGameControllerModif/ \
 				../../StaticLibs/INCLUDES/UjpsCore/ \
 				../../ControllersPlugins/INCLUDES/
 
-HEADERS +=  CODE/Profile.h \
-			CODE/StarCitizenControls.h
-			
+HEADERS +=  CODE/Profile.h
 SOURCES +=  CODE/Profile.cpp
 
