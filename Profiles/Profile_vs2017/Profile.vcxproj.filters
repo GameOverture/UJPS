@@ -38,7 +38,11 @@
   </ItemGroup>
   <ItemGroup>
     
-    <CustomBuild Include="CODE\moc\moc_predefs.h.cbt">
+    
+    <CustomBuild Include="debug\moc\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
   </ItemGroup>

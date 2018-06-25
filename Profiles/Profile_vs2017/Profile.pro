@@ -38,7 +38,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += plugin c++11
 OBJECTS_DIR = $$DESTDIR/objects
-MOC_DIR = CODE/moc
+MOC_DIR = $$DESTDIR/moc
 
 
 INCLUDEPATH +=  ../../StaticLibs/INCLUDES/QtGameControllerModif/ \

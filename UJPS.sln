@@ -111,6 +111,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "axesCurves", "AxesCurves\ax
 		{0CED9871-0CEA-3960-9E8E-8AD580FE74FE} = {0CED9871-0CEA-3960-9E8E-8AD580FE74FE}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Profile", "Profiles\Profile_vs2017\Profile.vcxproj", "{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -193,6 +195,10 @@ Global
 		{B9A527A1-99AB-3B6F-8123-D3DE58636807}.Debug|x64.Build.0 = Debug|x64
 		{B9A527A1-99AB-3B6F-8123-D3DE58636807}.Release|x64.ActiveCfg = Release|x64
 		{B9A527A1-99AB-3B6F-8123-D3DE58636807}.Release|x64.Build.0 = Release|x64
+		{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}.Debug|x64.ActiveCfg = Debug|x64
+		{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}.Debug|x64.Build.0 = Debug|x64
+		{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}.Release|x64.ActiveCfg = Release|x64
+		{FF7AA5C6-3C83-3B2C-A636-7D3B7F5EF72D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
