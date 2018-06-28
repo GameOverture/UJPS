@@ -10,11 +10,13 @@ class Profile : public AbstractProfile
 	Q_PLUGIN_METADATA(IID "Profile")
 	Q_INTERFACES(AbstractProfile)
 
-	//EnhancedJoystick *tmwj; // Thrustmaster Warthog Joystick
-	EnhancedJoystick *m_pThrottle;		// Thrustmaster Warthog Throttle
-	EnhancedJoystick *m_pPedals;		// Saitek Pro Flight Combat Rudder Pedals
-	VirtualJoystick  *m_pVirtualJoy1;	// virtual joystick #1
-	VirtualJoystick  *m_pVirtualJoy2;	// virtual joystick #2
+	const uint			m_uiPULSE_AMT;
+
+	EnhancedJoystick *	m_pJoystick;	// VKB Gunfighter mkII MCG Pro
+	EnhancedJoystick *	m_pThrottle;	// Thrustmaster Warthog Throttle
+	EnhancedJoystick *	m_pPedals;		// Saitek Pro Flight Combat Rudder Pedals
+	VirtualJoystick *	m_pVirtualJoy1;	// Virtual joystick #1
+	VirtualJoystick *	m_pVirtualJoy2;	// Virtual joystick #2
 
 	bool m_bBacklit;
 	quint8 m_iBrightness;
