@@ -173,7 +173,7 @@ void Profile::runFirstStep()
 	
 	// throttle slider for power in relative (no axis provided for absolute power)
 	tmwt->setSCurve(TMWT::THR_FC, 0.02f, 0.02f, 0.02f, 0, 0);
-	MapAxis2(tmwt, TMWT::THR_FC, AllLayers, {-0.95,0.95},{
+	MapAxis2(tmwt, TMWT::THR_FC, AllLayers, {-0.95f,0.95f},{
 		new ActionButtonPress(vj1,SC1::IncreasePower),
 		new ActionChain({new ActionButtonRelease{vj1,SC1::IncreasePower}, new ActionButtonRelease{vj1,SC1::DecreasePower}}),
 		new ActionButtonPress(vj1,SC1::DecreasePower)
@@ -255,12 +255,12 @@ void Profile::runFirstStep()
 		new ActionCallback{[this]() {this->switchShieldsMode();}},
 		new ActionButtonPulse{vj2, SC2::ResetShieldsLevels, ncPulse}
 	);
-	MapAxis2(tmwt, TMWT::SCX, AllLayers, {-0.84,0.84},{
+	MapAxis2(tmwt, TMWT::SCX, AllLayers, {-0.84f,0.84f},{
 		new ActionButtonPress(vj2,SC2::ShieldRaiseLeft),
 		new ActionChain({new ActionButtonRelease{vj2,SC2::ShieldRaiseLeft}, new ActionButtonRelease{vj2,SC2::ShieldRaiseRight}}),
 		new ActionButtonPress(vj2,SC2::ShieldRaiseRight)
 	});
-	MapAxis2(tmwt, TMWT::SCY, AllLayers, {-0.84,0.84},{
+	MapAxis2(tmwt, TMWT::SCY, AllLayers, {-0.84f,0.84f},{
 		new ActionCallback{[this]() {this->shieldsDownArrow();}},
 		new ActionCallback{[this]() {this->releaseLongiShieldsButtons();}},
 		new ActionCallback{[this]() {this->shieldsUpArrow();}}
