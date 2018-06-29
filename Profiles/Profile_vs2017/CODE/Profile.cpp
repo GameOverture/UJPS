@@ -12,18 +12,21 @@
 #include "EnhancedJoystick.h"
 
 // Plugin mappings
-#include "ThrustmasterWarthogJoystick.h"
+#include "VkbMcgProJoystick.h"
 #include "ThrustmasterWarthogThrottle.h"
 #include "SaitekProFlightCombatRudderPedals.h"
+#include "LogitechG13.h"
 
 #include "Lim.h"
 
 LayersCombo AllLayers{};
 using namespace Keys;
 
-namespace JOY = ThrustmasterWarthogJoystick;
+namespace JOY = VkbMcgProJoystick;
 namespace THR = ThrustmasterWarthogThrottle;
 namespace RUD = SaitekProFlightCombatRudderPedals;
+namespace G13 = LogitechG13;
+
 namespace SC1 = StarCitizenControls_vJoy1;
 namespace SC2 = StarCitizenControls_vJoy2;
 

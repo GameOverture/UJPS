@@ -16,6 +16,12 @@
       <Filter>Peripherals</Filter>
     </ClInclude>
     <ClInclude Include="CODE\StarCitizenControls.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\LogitechG13.h">
+      <Filter>Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\VkbMcgProJoystick.h">
+      <Filter>Peripherals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CODE\Profile.cpp" />
