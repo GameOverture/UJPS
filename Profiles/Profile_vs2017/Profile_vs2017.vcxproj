@@ -103,6 +103,9 @@
     <QtMoc Include="CODE\Profile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\SaitekProFlightCombatRudderPedals.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\ThrustmasterWarthogThrottle.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\vJoyDevice.h" />
     <ClInclude Include="CODE\StarCitizenControls.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
