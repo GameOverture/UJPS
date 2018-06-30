@@ -130,7 +130,10 @@ Profile::~Profile()
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
+	MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
+	MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightPitch);
 	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVirtualJoy1, SC1::AxisFlightThrottle);
+	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightRoll);
 
 	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
@@ -142,6 +145,9 @@ Profile::~Profile()
 	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 
 	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVirtualJoy1, SC1::ToggleDecoupledMode);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Gunnery
 
 	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
 	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
