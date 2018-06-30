@@ -119,22 +119,23 @@ Profile::~Profile()
 	// Dealing with layers
 	this->registerLayerDim1(Layers::In, m_pThrottle, THR::MSD);
 	
-	// Initialize the virtual joysticks data using the real joysticks data
-	// be in sync with the initial mappings defined below
+	// Initialize the virtual joysticks data using the real joysticks data be in sync with the initial mappings defined below
 	m_pVirtualJoy1->resetReport();
 	m_pVirtualJoy2->resetReport();
-	//m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f); // vertical strafe at 0 to avoid bad surprises
+	m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f); // vertical strafe at 0 to avoid bad surprises
 	
 	// Leds initialisation
 	m_iBrightness = bUSE_LED ? 1 : 0;
-	
 	m_pThrottle->setData("BRIGHTNESS",m_iBrightness);
 	m_pThrottle->setData("BACKLIT",m_bBacklit);
 	m_pThrottle->setData("LED4",false);
 	m_pThrottle->setData("LED5",false);
 	
-	// Create the initial mapping
-	// divers
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// Propulsion
+
+	m_pThrottle->axisValue(0);
+
 	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
 	m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
 	m_pPedals->setSCurve(RUD::RUDDER, 0.035f, 0.012f, 0.035f, 1.0f, 0.0f);
