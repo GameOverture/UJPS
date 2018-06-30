@@ -58,7 +58,7 @@ void StandardJoystickWidget::setupWidget()
 	
 	// axes
 	QStringList names;
-	for (uint i=0; i<m_joystick->axesCount(); ++i) {names << "Axis "+QString::number(i+1);}
+	for (uint i=0; i<m_joystick->axesCount(); ++i) {names << "Axis "+QString::number(i);}
 	boxAxes = new AxesWidget(names,this);
 	layout2->addWidget(boxAxes);
 	
@@ -66,7 +66,7 @@ void StandardJoystickWidget::setupWidget()
 	layout3 = new QHBoxLayout();
 	for (uint i=0; i<m_joystick->povsCount(); ++i)
 	{
-		PovWidgetDecorated *p = new PovWidgetDecorated{"POV"+QString::number(i+1),this};
+		PovWidgetDecorated *p = new PovWidgetDecorated{"POV"+QString::number(i),this};
 		layout3->addWidget(p);
 		povWidgets << p;
 	}
@@ -82,7 +82,7 @@ void StandardJoystickWidget::setupWidget()
 	int nbButtons = m_joystick->buttonsCount();
 	for (int i=0; i<qMax(32,nbButtons); ++i)
 	{
-		ButtonWidget *b = new ButtonWidget(i+1,i<nbButtons,this);
+		ButtonWidget *b = new ButtonWidget(i,i<nbButtons,this);
 		buttonsLayout->addWidget(b,i/8,i%8,1,1);
 		buttonsWidgets << b;
 	}
