@@ -106,6 +106,7 @@
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\LogitechG13.h" />
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\SaitekProFlightCombatRudderPedals.h" />
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\ThrustmasterWarthogThrottle.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\VirpilMongoost50Throttle.h" />
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\vJoyDevice.h" />
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\VkbMcgProJoystick.h" />
     <ClInclude Include="CODE\StarCitizenControls.h" />

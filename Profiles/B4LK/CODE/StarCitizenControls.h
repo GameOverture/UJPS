@@ -30,7 +30,7 @@ namespace StarCitizenControls_vJoy1
 
 	const uint CycleCameraView								= vJoyDevice::DX11;
 	const uint CycleCameraOrbitMode							= vJoyDevice::DX12;
-	const uint Whoops										= vJoyDevice::DX13;
+	const uint X________									= vJoyDevice::DX13;
 	const uint LookBehind									= vJoyDevice::DX14;
 
 	const uint Spacebrake									= vJoyDevice::DX15;

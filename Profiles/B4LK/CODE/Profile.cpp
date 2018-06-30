@@ -116,9 +116,6 @@ Profile::~Profile()
 
 /*virtual*/ void Profile::runFirstStep() /*override final*/
 {
-	// Dealing with layers
-	this->registerLayerDim1(Layers::In, m_pThrottle, THR::MSD);
-	
 	// Initialize the virtual joysticks data using the real joysticks data be in sync with the initial mappings defined below
 	m_pVirtualJoy1->resetReport();
 	m_pVirtualJoy2->resetReport();
@@ -131,10 +128,20 @@ Profile::~Profile()
 	m_pThrottle->setData("LED4",false);
 	m_pThrottle->setData("LED5",false);
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
 	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVirtualJoy1, SC1::AxisFlightThrottle);
+
 	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+
+	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVirtualJoy1, SC1::ToggleDecoupledMode);
 
 	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
 	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
@@ -271,12 +278,29 @@ Profile::~Profile()
 
 void Profile::DoStrafe()
 {
-	float fSliderValue = m_pThrottle->axisValue(THR::THR_FC);
+	float fSliderValue = 1.0f;
 
-	if(m_pThrottle->buttonPressed(THR::MSR))
+	if(m_pThrottle->buttonPressed(THR::FLAPD))
 	{
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
+		fSliderValue = m_pThrottle->axisValue(THR::THR_FC);
+		fSliderValue = (fSliderValue * -0.5f) + 0.5f; // Normalize [0.0 - 1.0]
 	}
+
+	// LEFT / RIGHT
+	if(m_pThrottle->buttonPressed(THR::MSL))
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue * -1.0f);
+	else if(m_pThrottle->buttonPressed(THR::MSR))
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
+	else
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, 0.0f);
+
+	// UP / DOWN
+	if(m_pThrottle->buttonPressed(THR::CSD))
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue * -1.0f);
+	else if(m_pThrottle->buttonPressed(THR::CSU))
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue);
+	else
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

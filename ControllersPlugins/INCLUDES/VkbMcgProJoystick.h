@@ -14,6 +14,13 @@ namespace VkbMcgProJoystick_
 {
 	const QString Description = "VKBsim Gunfighter Modern Combat PRO ";	// NOTE: there's actually a space at the end of the description (lol)
 
+
+	// VKB controllers can have their firmware programmed to output basically any axis or button. These mappings reflect my personal firmware programming, but
+	// they are close to the factory defaults. The only significant change I made was having the Trim analog stick press output button index 23, instead of it 
+	// acting as a toggle between a HAT and Trim axis. I also made the trim axis act as absolute instead of relative (but that affects how you write your 
+	// profile more than the below mappings).
+
+	// Axis
 	const uint JOYX = 0;
 	const uint JOYY = 1;
 
@@ -25,11 +32,11 @@ namespace VkbMcgProJoystick_
 
 	const uint BRAKE = 7;	// Hand Brake
 
-	
-	const uint TG1 = 0;			// Trigger stage 1
-	const uint TG2 = 1;			// Trigger stage 2
-	const uint TG3 = 2;			// Folding trigger pulled detent
-	const uint BtnRed = 3;		// Red button
+	// Buttons
+	const uint TriggerStage1 = 0;
+	const uint TriggerStage2 = 1;
+	const uint FoldingTriggerDetent = 2;
+	const uint BtnRed = 3;
 	const uint BtnTopRight = 4;
 	const uint BtnMidRight = 5;
 	const uint BtnGrip = 6;
