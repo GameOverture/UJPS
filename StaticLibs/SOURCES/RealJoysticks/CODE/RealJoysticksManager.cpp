@@ -120,7 +120,8 @@ AbstractRealJoystick* RealJoysticksManager::joystick(const QString &joystickName
 	int compteur = 0;
 	for (AbstractRealJoystick *j : m_joysticks)
 	{
-		if (j->description() == joystickName)
+		QString sJoyName = j->description();
+		if (sJoyName == joystickName)
 		{
 			if (compteur == num)
 				return j;
