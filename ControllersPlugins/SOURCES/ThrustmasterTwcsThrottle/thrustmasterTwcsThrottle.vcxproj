@@ -117,6 +117,10 @@
       <DynamicSource>output</DynamicSource>
       <IncludePath>$(ProjectDir)..\..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\..\StaticLibs\INCLUDES\Other;$(Configuration)\moc;$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
     </QtMoc>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)..\..\PLUGINS"
+copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(ProjectDir)..\..\PLUGINS"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -169,6 +173,10 @@
       <DynamicSource>output</DynamicSource>
       <IncludePath>$(ProjectDir)..\..\..\StaticLibs\INCLUDES\QtGameControllerModif;$(ProjectDir)..\..\..\StaticLibs\INCLUDES\RealJoysticks;$(ProjectDir)..\..\..\StaticLibs\INCLUDES\Other;$(Configuration)\moc;$(ProjectDir)$(Configuration)\GeneratedFiles\$(ConfigurationName);$(ProjectDir)$(Configuration)\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(ProjectDir)include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
     </QtMoc>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)..\..\PLUGINS"
+copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(ProjectDir)..\..\PLUGINS"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CODE\ThrustmasterTwcsThrottle.cpp" />
