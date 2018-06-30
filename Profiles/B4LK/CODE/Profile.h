@@ -40,6 +40,8 @@ private:
 	virtual bool setupJoysticks() override final;
 	virtual void runFirstStep() override final;
 
+	void DoStrafe();
+
 	// led configuration
 	void ledBrightnessDown();
 	void ledBrightnessUp();

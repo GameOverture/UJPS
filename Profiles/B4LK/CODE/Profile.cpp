@@ -133,13 +133,13 @@ Profile::~Profile()
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
+	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVirtualJoy1, SC1::AxisFlightThrottle);
+	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 
-	m_pThrottle->axisValue(0);
-
-	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
-	m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
-	m_pPedals->setSCurve(RUD::RUDDER, 0.035f, 0.012f, 0.035f, 1.0f, 0.0f);
-	m_pPedals->setSCurve(RUD::BRK_LEFT, 0.04f, 0.00f, 0.06f, 0.0f, 0.0f);
+	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
+	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
+	//m_pPedals->setSCurve(RUD::RUDDER, 0.035f, 0.012f, 0.035f, 1.0f, 0.0f);
+	//m_pPedals->setSCurve(RUD::BRK_LEFT, 0.04f, 0.00f, 0.06f, 0.0f, 0.0f);
 	//m_pPedals->setSCurve(RUD::BRK_RIGHT, fBRAKE_RIGHT_LDZ, 0.00f, fBRAKE_RIGHT_RDZ, 0.0f, 0.0f);
 	
 	//m_pJoystick->setAxisTrim(JOY::JOYX,0.026f);
@@ -267,6 +267,16 @@ Profile::~Profile()
 	// joystick trim
 	//Map(m_pThrottle, ControlType::Button, THR::FLAPU, AllLayers, new TriggerButtonPress{}, new ActionCallback{[this]() {this->set_dxxy_trims();}});
 	//Map(m_pThrottle, ControlType::Button, THR::FLAPD, AllLayers, new TriggerButtonPress{}, new ActionCallback{[this]() {this->reset_dxxy_trims();}});
+}
+
+void Profile::DoStrafe()
+{
+	float fSliderValue = m_pThrottle->axisValue(THR::THR_FC);
+
+	if(m_pThrottle->buttonPressed(THR::MSR))
+	{
+		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
