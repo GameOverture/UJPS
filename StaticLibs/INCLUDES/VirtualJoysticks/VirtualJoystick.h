@@ -12,6 +12,7 @@
 #include "virtualjoysticks-global.h"
 using uint = unsigned int;
 
+const int g_MAPPING_REPEATER_DURATION = 5; // in seconds
 
 enum class Priority
 {
