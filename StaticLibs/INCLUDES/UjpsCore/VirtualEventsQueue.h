@@ -9,6 +9,7 @@
 
 class AbstractProfile;
 
+
 class UJPSCORE_EXPORT VirtualEventsQueue
 {
 	public:
