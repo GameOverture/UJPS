@@ -43,8 +43,8 @@ Profile::Profile() :	AbstractProfile(),
 						m_pJoystick(nullptr),			// VKB Gunfighter mkII MCG Pro
 						m_pThrottle(nullptr),			// Thrustmaster Warthog Throttle
 						m_pPedals(nullptr),				// Saitek Pro Flight Combat Rudder Pedals
-						m_pVirtualJoy1(nullptr),		// virtual joystick #1
-						m_pVirtualJoy2(nullptr)			// virtual joystick #2
+						m_pG13(nullptr),
+						m_pVJoy(nullptr)
 {
 	m_bShieldsHorizontalMode = true;
 	m_targetsTypeToCycle = 2;
@@ -73,8 +73,8 @@ Profile::~Profile()
 	m_pJoystick = nullptr;
 	m_pThrottle = nullptr;
 	m_pPedals = nullptr;
-	m_pVirtualJoy1  = nullptr;
-	m_pVirtualJoy2  = nullptr;
+	m_pG13 = nullptr;
+	m_pVJoy = nullptr;
 }
 
 /*virtual*/ bool Profile::setupJoysticks() /*override final*/
@@ -83,6 +83,7 @@ Profile::~Profile()
 	m_pJoystick = this->registerRealJoystick(JOY::Description);
 	m_pThrottle = this->registerRealJoystick(THR::Description);
 	m_pPedals = this->registerRealJoystick(RUD::Description);
+	m_pG13 = this->registerRealJoystick(G13::Description);
 	
 	if(m_pJoystick)
 		LOG_MSG(JOY::Description + " detected");
@@ -98,18 +99,19 @@ Profile::~Profile()
 		LOG_MSG(RUD::Description + " detected");
 	else
 		LOG_ERROR(RUD::Description + " not detected!");
+
+	if(m_pG13)
+		LOG_MSG(G13::Description + " detected");
+	else
+		LOG_ERROR(G13::Description + " not detected!");
 	
-	if (!m_pJoystick || !m_pThrottle || !m_pPedals)
+	if (!m_pJoystick || !m_pThrottle || !m_pPedals || !m_pG13)
 		return false;
 	
-	// Virtual joysticks setup
-	m_pVirtualJoy1 = new VirtualJoystick{1};
+	// Virtual joystick setup
+	m_pVJoy = new VirtualJoystick{1};
 	LOG_MSG("Virtual joystick 1 configured");
-	this->registerVirtualJoystick(m_pVirtualJoy1);
-	
-	m_pVirtualJoy2 = new VirtualJoystick{2};
-	LOG_MSG("Virtual joystick 2 configured");
-	this->registerVirtualJoystick(m_pVirtualJoy2);
+	this->registerVirtualJoystick(m_pVJoy);	
 	
 	return true;
 }
@@ -117,9 +119,8 @@ Profile::~Profile()
 /*virtual*/ void Profile::runFirstStep() /*override final*/
 {
 	// Initialize the virtual joysticks data using the real joysticks data be in sync with the initial mappings defined below
-	m_pVirtualJoy1->resetReport();
-	m_pVirtualJoy2->resetReport();
-	m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f); // vertical strafe at 0 to avoid bad surprises
+	m_pVJoy->resetReport();
+	m_pVJoy->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f); // vertical strafe at 0 to avoid bad surprises
 	
 	// Leds initialisation
 	m_iBrightness = bUSE_LED ? 1 : 0;
@@ -130,10 +131,10 @@ Profile::~Profile()
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
-	MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
-	MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightPitch);
-	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVirtualJoy1, SC1::AxisFlightThrottle);
-	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightRoll);
+	MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVJoy, SC1::AxisFlightYaw);
+	MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVJoy, SC1::AxisFlightPitch);
+	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVJoy, SC1::AxisFlightThrottle);
+	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVJoy, SC1::AxisFlightRoll);
 
 	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
@@ -144,10 +145,15 @@ Profile::~Profile()
 	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 
-	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVirtualJoy1, SC1::ToggleDecoupledMode);
+	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVJoy, SC1::ToggleDecoupledMode);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Gunnery
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// On Foot
+	MapAxis(m_pG13, G13::JOYX, AllLayers, m_pVJoy, SC1::AxisOnFootLeftRight);
+	MapAxis(m_pG13, G13::JOYY, AllLayers, m_pVJoy, SC1::AxisOnFootFwdBck);
 
 	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
 	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
@@ -294,19 +300,19 @@ void Profile::DoStrafe()
 
 	// LEFT / RIGHT
 	if(m_pThrottle->buttonPressed(THR::MSL))
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue * -1.0f);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue * -1.0f);
 	else if(m_pThrottle->buttonPressed(THR::MSR))
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
 	else
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, 0.0f);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeLeftRight, 0.0f);
 
 	// UP / DOWN
 	if(m_pThrottle->buttonPressed(THR::CSD))
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue * -1.0f);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue * -1.0f);
 	else if(m_pThrottle->buttonPressed(THR::CSU))
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue);
 	else
-		m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f);
+		m_pVJoy->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

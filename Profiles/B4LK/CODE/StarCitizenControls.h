@@ -17,6 +17,13 @@ namespace StarCitizenControls_vJoy1
 	const uint AxisFlightThrottle							= vJoyDevice::SLIDER0;
 	const uint AxisFlightDynamicZoom						= vJoyDevice::SLIDER1;
 
+	const uint AxisAimLeftRight								= vJoyDevice::ROTY;
+	const uint AxisAimUpDown								= vJoyDevice::ROTX;
+	const uint AxisOnFootLeftRight							= vJoyDevice::X;
+	const uint AxisOnFootFwdBck								= vJoyDevice::Z;
+	const uint AxisVehicleFwdBck							= vJoyDevice::SLIDER0;
+	const uint AxisVehicleLeftRight							= vJoyDevice::SLIDER1;
+
 	const uint Eject										= vJoyDevice::DX1;
 	const uint ExitSeat										= vJoyDevice::DX2;
 	const uint SelfDestruct									= vJoyDevice::DX3;
@@ -75,13 +82,6 @@ namespace StarCitizenControls_vJoy1
 
 namespace StarCitizenControls_vJoy2
 {
-	const uint AxisAimLeftRight								= vJoyDevice::ROTY;
-	const uint AxisAimUpDown								= vJoyDevice::ROTX;
-	const uint AxisOnFootLeftRight							= vJoyDevice::X;
-	const uint AxisOnFootFwdBck								= vJoyDevice::Z;
-	const uint AxisVehicleFwdBck							= vJoyDevice::SLIDER0;
-	const uint AxisVehicleLeftRight							= vJoyDevice::SLIDER1;
-
 	const uint CycleWeaponAmmo								= vJoyDevice::DX1;
 	const uint CycleWeaponAmmoBack							= vJoyDevice::DX2;
 	const uint AcquireMissileLock							= vJoyDevice::DX3;

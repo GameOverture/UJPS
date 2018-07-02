@@ -14,8 +14,8 @@ namespace LogitechG13_
 {
 	const QString Description = "Logitech G13 Joystick";
 	
-	const uint JOYX = 0;	// X stick axis
-	const uint JOYY = 1;	// Y stick axis
+	const uint JOYX = 1;	// X stick axis
+	const uint JOYY = 0;	// Y stick axis
 
 	const uint PRESS = 0;	// Pressing the analog stick
 };

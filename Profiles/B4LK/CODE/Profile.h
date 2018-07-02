@@ -15,8 +15,8 @@ class Profile : public AbstractProfile
 	EnhancedJoystick *	m_pJoystick;	// VKB Gunfighter mkII MCG Pro
 	EnhancedJoystick *	m_pThrottle;	// Thrustmaster Warthog Throttle
 	EnhancedJoystick *	m_pPedals;		// Saitek Pro Flight Combat Rudder Pedals
-	VirtualJoystick *	m_pVirtualJoy1;	// Virtual joystick #1
-	VirtualJoystick *	m_pVirtualJoy2;	// Virtual joystick #2
+	EnhancedJoystick *	m_pG13;			// Logitech G13
+	VirtualJoystick *	m_pVJoy;		// Only using 1 virtual joystick since I'm unable to have my windows enumerate 2 vjoys anywhere near first (and importing joystick #3 or greater in Star Citizen is impossible due to UI bug)
 
 	bool m_bBacklit;
 	quint8 m_iBrightness;
