@@ -4,6 +4,11 @@
     <Filter Include="Peripherals">
       <UniqueIdentifier>{b7134a24-f1a9-43b2-adfd-e027fe85ce1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ControllersPlugins\INCLUDES\SaitekProFlightCombatRudderPedals.h">
@@ -27,9 +32,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CODE\Profile.cpp" />
+    <QtMoc Include="CODE\Profile.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="CODE\Profile.h" />
+    <ClCompile Include="CODE\Profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
