@@ -342,13 +342,15 @@ void Profile::DoToeBrake()
 	}
 	else if(m_pThrottle->buttonPressed(THR::PSB)) // Vehicle mode
 	{
-		m_pVJoy2->setButton(SC2::LeanLeft, fLeftVal >= 0.0f);
-		fLeftVal = (fLeftVal * -0.5f) + 0.5f; // Normailize [0.0 - 1.0]
+		m_pVJoy2->setButton(SC2::VehicleBrake, fLeftVal >= 0.0f);
+		
 		fRightVal = (fRightVal * -0.5f) + 0.5f; // Normailize [0.0 - 1.0]
+		m_pVJoy2->setAxis(SC2::AxisVehicleFwdBck, fRightVal);
 	}
-	else
+	else // Flight mode
 	{
-
+		m_pVJoy1->setButton(SC1::Spacebrake, fLeftVal >= 0.0f);
+		m_pVJoy1->setButton(SC1::Boost, fRightVal >= 0.0f);
 	}
 }
 
