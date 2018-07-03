@@ -159,11 +159,16 @@ Profile::~Profile()
 	// Gunnery
 	MapAxis(m_pJoystick, JOY::SLEWX, AllLayers, m_pVJoy2, SC2::AxisAimLeftRight);
 	MapAxis(m_pJoystick, JOY::SLEWY, AllLayers, m_pVJoy2, SC2::AxisAimUpDown);
+	MapAxis(m_pJoystick, JOY::TRIMY, AllLayers, m_pVJoy1, SC1::AxisFlightDynamicZoom);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// On Foot
 	MapAxis(m_pG13, G13::JOYX, AllLayers, m_pVJoy2, SC2::AxisOnFootLeftRight);
 	MapAxis(m_pG13, G13::JOYY, AllLayers, m_pVJoy2, SC2::AxisOnFootFwdBck);
+
+
+	Map(m_pPedals, ControlType::Axis, RUD::BRK_RIGHT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
+	Map(m_pPedals, ControlType::Axis, RUD::BRK_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 
 	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
 	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
@@ -323,6 +328,28 @@ void Profile::DoStrafe()
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue);
 	else
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f);
+}
+
+void Profile::DoToeBrake()
+{
+	float fRightVal = m_pPedals->axisValue(RUD::BRK_RIGHT);
+	float fLeftVal = m_pPedals->axisValue(RUD::BRK_LEFT);
+
+	if(m_pThrottle->buttonPressed(THR::PSF)) // On foot mode
+	{
+		m_pVJoy2->setButton(SC2::LeanLeft, fLeftVal >= 0.0f);
+		m_pVJoy2->setButton(SC2::LeanRight, fRightVal >= 0.0f);
+	}
+	else if(m_pThrottle->buttonPressed(THR::PSB)) // Vehicle mode
+	{
+		m_pVJoy2->setButton(SC2::LeanLeft, fLeftVal >= 0.0f);
+		fLeftVal = (fLeftVal * -0.5f) + 0.5f; // Normailize [0.0 - 1.0]
+		fRightVal = (fRightVal * -0.5f) + 0.5f; // Normailize [0.0 - 1.0]
+	}
+	else
+	{
+
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

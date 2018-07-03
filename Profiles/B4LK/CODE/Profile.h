@@ -42,6 +42,7 @@ private:
 	virtual void runFirstStep() override final;
 
 	void DoStrafe();
+	void DoToeBrake();
 
 	// led configuration
 	void ledBrightnessDown();
