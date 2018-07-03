@@ -33,7 +33,7 @@ win32-msvc*:CONFIG(release, debug|release) {
 }
 
 TEMPLATE = lib
-TARGET = Profile
+TARGET = B4LK
 DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += plugin c++11

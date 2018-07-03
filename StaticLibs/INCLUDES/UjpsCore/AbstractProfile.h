@@ -43,7 +43,10 @@ class UJPSCORE_EXPORT AbstractProfile : public QObject
 		
 		uint ms2cycles(uint msecs) const;
 		void setTimeStep(int dtms);			// useful to count the number of cycles for pulses and delays
+		int getTimeStep();
 		
+		void setMappingRepeater(bool enable);
+		bool isMappingRepeater();
 		
 	signals:
 		void message(const QString &str, QColor color);
@@ -97,6 +100,7 @@ class UJPSCORE_EXPORT AbstractProfile : public QObject
 		
 		int m_dtms;
 		bool m_bFirstStep;
+		bool m_bMappingRepeaterEnabled;
 		
 		RealJoysticksManager *m_rjm;
 		LayerCalculator m_layerCalculator;

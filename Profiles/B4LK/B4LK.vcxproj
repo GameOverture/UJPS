@@ -10,15 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="CODE\Profile.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="CODE\Profile.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CODE\StarCitizenControls.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
@@ -76,8 +67,8 @@
       <AdditionalDependencies>QtGameControllerModif.lib;realJoysticks.lib;virtualJoysticks.lib;ujpsCore.lib;vJoyInterface.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;_WINDLL</Define>
-      <IncludePath>.\..\..\StaticLibs\INCLUDES\QtGameControllerModif;.\..\..\StaticLibs\INCLUDES\Other;.\..\..\StaticLibs\INCLUDES\VirtualJoysticks;.\..\..\StaticLibs\INCLUDES\RealJoysticks;.\..\..\StaticLibs\INCLUDES\UjpsCore;.\..\..\ControllersPlugins\INCLUDES;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
+      <IncludePath>..\..\StaticLibs\INCLUDES\QtGameControllerModif;..\..\StaticLibs\INCLUDES\Other;..\..\StaticLibs\INCLUDES\VirtualJoysticks;..\..\StaticLibs\INCLUDES\RealJoysticks;..\..\StaticLibs\INCLUDES\UjpsCore;..\..\ControllersPlugins\INCLUDES;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
@@ -99,12 +90,27 @@
       <AdditionalDependencies>QtGameControllerModif.lib;realJoysticks.lib;virtualJoysticks.lib;ujpsCore.lib;vJoyInterface.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;_WINDLL</Define>
-      <IncludePath>.\..\..\StaticLibs\INCLUDES\QtGameControllerModif;.\..\..\StaticLibs\INCLUDES\Other;.\..\..\StaticLibs\INCLUDES\VirtualJoysticks;.\..\..\StaticLibs\INCLUDES\RealJoysticks;.\..\..\StaticLibs\INCLUDES\UjpsCore;.\..\..\ControllersPlugins\INCLUDES;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
+      <IncludePath>..\..\StaticLibs\INCLUDES\QtGameControllerModif;..\..\StaticLibs\INCLUDES\Other;..\..\StaticLibs\INCLUDES\VirtualJoysticks;..\..\StaticLibs\INCLUDES\RealJoysticks;..\..\StaticLibs\INCLUDES\UjpsCore;..\..\ControllersPlugins\INCLUDES;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <QtMoc Include="CODE\Profile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\LogitechG13.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\SaitekProFlightCombatRudderPedals.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\ThrustmasterWarthogThrottle.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\VirpilMongoost50Throttle.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\vJoyDevice.h" />
+    <ClInclude Include="..\..\ControllersPlugins\INCLUDES\VkbMcgProJoystick.h" />
+    <ClInclude Include="CODE\StarCitizenControls.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CODE\Profile.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

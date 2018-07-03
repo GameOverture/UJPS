@@ -14,9 +14,9 @@ namespace SaitekProFlightCombatRudderPedals_
 {
 	const QString Description = "Saitek Pro Flight Combat Rudder Pedals (USB)";
 	
-	const uint RUDDER    = 0;
+	const uint RUDDER    = 2;
 	const uint BRK_LEFT  = 1;
-	const uint BRK_RIGHT = 2;
+	const uint BRK_RIGHT = 0;
 };
 
 #endif

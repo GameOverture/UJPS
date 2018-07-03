@@ -12,39 +12,51 @@ namespace VkbMcgProJoystick
 namespace VkbMcgProJoystick_
 #endif
 {
-	const QString Description = "VKB MCG Pro Joystick";
-	
-	const uint TG1 = 0;		// trigger stage 1
-	const uint S2  = 1;		// Weapon release
-	const uint S3  = 2;		// NWS (nose wheel steering)
-	const uint S4  = 3;
-	const uint S1  = 4;		// MMCB (master mode control button)
-	const uint TG2 = 5;		// trigger stage 2
-	const uint H2U = 6;		// H2 = TMS
-	const uint H2R = 7;
-	const uint H2D = 8;
-	const uint H2L = 9;
-	const uint H3U = 10;	// H3 = DMS
-	const uint H3R = 11;
-	const uint H3D = 12;
-	const uint H3L = 13;
-	const uint H4U = 14;	// H4 = CMS
-	const uint H4R = 15;
-	const uint H4D = 16;
-	const uint H4L = 17;
-	const uint H4P = 18;
-	const uint H1U = 19;	// H1 = Trim switch / POV (4 virtual buttons)
-	const uint H1R = 20;
-	const uint H1D = 21;
-	const uint H1L = 22;
-		
+	const QString Description = "VKBsim Gunfighter Modern Combat PRO ";	// NOTE: there's actually a space at the end of the description (lol)
+
+
+	// VKB controllers can have their firmware programmed to output basically any axis or button. These mappings reflect my personal firmware programming, but
+	// they are close to the factory defaults. The only significant change I made was having the Trim analog stick press output button index 23, instead of it 
+	// acting as a toggle between a HAT and Trim axis. I also made the trim axis act as absolute instead of relative (but that affects how you write your 
+	// profile more than the below mappings).
+
+	// Axis
 	const uint JOYX = 0;
 	const uint JOYY = 1;
-	
-	const uint HAT1 = 0;
-	const uint HAT2 = 1;
-	const uint HAT3 = 2;
-	const uint HAT4 = 3;
+
+	const uint TRIMX = 3;	// Upper analog stick
+	const uint TRIMY = 2;	// Upper analog stick
+
+	const uint SLEWX = 5;	// Bottom-Left analog stick
+	const uint SLEWY = 4;	// Bottom-Left analog stick
+
+	const uint BRAKE = 7;	// Hand Brake
+
+	// Buttons
+	const uint TriggerStage1 = 0;
+	const uint TriggerStage2 = 1;
+	const uint FoldingTriggerDetent = 2;
+	const uint BtnRed = 3;
+	const uint BtnTopRight = 4;
+	const uint BtnMidRight = 5;
+	const uint BtnGrip = 6;
+	const uint PressSlew = 7;
+	const uint HatGripPress = 8;
+	const uint HatGripUp = 9;
+	const uint HatGripRight = 10;
+	const uint HatGripDown = 11;
+	const uint HatGripLeft = 12;
+	const uint HatMidUp = 13;
+	const uint HatMidRight = 14;
+	const uint HatMidDown = 15;
+	const uint HatMidLeft = 16;
+	const uint HatMidPress = 17;
+	const uint HatHeadUp = 18;
+	const uint HatHeadRight = 19;
+	const uint HatHeadDown = 20;
+	const uint HatHeadLeft = 21;
+	const uint HatHeadPress = 22;
+	const uint PressTrim = 23;
 };
 
 #endif
