@@ -40,7 +40,7 @@ const float fBRAKE_THRESHOLD = -0.80f;
 
 Profile::Profile() :	AbstractProfile(),
 						m_uiPULSE_AMT(ms2cycles(150)),	// 150 ms for Star Citizen because of the current low framerate
-						m_pJoystick(nullptr),			// VKB Gunfighter mkII MCG Pro
+						m_pMcgPro(nullptr),			// VKB Gunfighter mkII MCG Pro
 						m_pThrottle(nullptr),			// Thrustmaster Warthog Throttle
 						m_pPedals(nullptr),				// Saitek Pro Flight Combat Rudder Pedals
 						m_pG13(nullptr),
@@ -71,7 +71,7 @@ Profile::~Profile()
 	// UnmapAll, delete real and virtual joysticks
 	this->AbstractProfile::stop();
 	
-	m_pJoystick = nullptr;
+	m_pMcgPro = nullptr;
 	m_pThrottle = nullptr;
 	m_pPedals = nullptr;
 	m_pG13 = nullptr;
@@ -82,12 +82,12 @@ Profile::~Profile()
 /*virtual*/ bool Profile::setupJoysticks() /*override final*/
 {
 	// we retrieve pointers on real joysticks we are interested in
-	m_pJoystick = this->registerRealJoystick(JOY::Description);
+	m_pMcgPro = this->registerRealJoystick(JOY::Description);
 	m_pThrottle = this->registerRealJoystick(THR::Description);
 	m_pPedals = this->registerRealJoystick(RUD::Description);
 	m_pG13 = this->registerRealJoystick(G13::Description);
 	
-	if(m_pJoystick)
+	if(m_pMcgPro)
 		LOG_MSG(JOY::Description + " detected");
 	else
 		LOG_ERROR(JOY::Description + " not detected!");
@@ -107,17 +107,17 @@ Profile::~Profile()
 	else
 		LOG_ERROR(G13::Description + " not detected!");
 	
-	if (!m_pJoystick || !m_pThrottle || !m_pPedals || !m_pG13)
+	if (!m_pMcgPro || !m_pThrottle || !m_pPedals || !m_pG13)
 		return false;
 	
-	// Virtual joystick setup
-	m_pVJoy1 = new VirtualJoystick{1};
-	LOG_MSG("Virtual joystick 1 configured");
-	this->registerVirtualJoystick(m_pVJoy1);
-
+	// Virtual joystick setup (Star Citizen reads these backwards, so reversing them here)
 	m_pVJoy2 = new VirtualJoystick{1};
 	LOG_MSG("Virtual joystick 1 configured");
 	this->registerVirtualJoystick(m_pVJoy2);
+
+	m_pVJoy1 = new VirtualJoystick{2};
+	LOG_MSG("Virtual joystick 2 configured");
+	this->registerVirtualJoystick(m_pVJoy1);
 	
 	return true;
 }
@@ -136,11 +136,24 @@ Profile::~Profile()
 	m_pThrottle->setData("BACKLIT",m_bBacklit);
 	m_pThrottle->setData("LED4",false);
 	m_pThrottle->setData("LED5",false);
+
+	// Fixup joysticks axis
+	m_pMcgPro->setAxisTrim(JOY::JOYY, -0.21f); // Heavy trim needed on MCG Pro DansGame
+	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f);
+	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.0f);
+	m_pG13->setAxisInverted(G13::JOYY, true);
+	m_pPedals->setAxisInverted(RUD::RUDDER, true);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Cockpit
+	MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
+	MapButton(m_pThrottle, THR::EOLIGN, AllLayers, m_pVJoy1, SC1::ToggleQuantumTravelSystem);
+	MapButton(m_pThrottle, THR::EORIGN, AllLayers, m_pVJoy1, SC1::QuantumDrive);
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
-	MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVJoy1, SC1::AxisFlightYaw);
-	MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVJoy1, SC1::AxisFlightPitch);
+	MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVJoy1, SC1::AxisFlightYaw);
+	MapAxis(m_pMcgPro, JOY::JOYY, AllLayers, m_pVJoy1, SC1::AxisFlightPitch);
 	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVJoy1, SC1::AxisFlightThrottle);
 	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVJoy1, SC1::AxisFlightRoll);
 
@@ -154,17 +167,61 @@ Profile::~Profile()
 	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 
 	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVJoy1, SC1::ToggleDecoupledMode);
+	MapButton(m_pThrottle, THR::SPDF, AllLayers, m_pVJoy1, SC1::Afterburner);
+	MapButton(m_pThrottle, THR::SPDB, AllLayers, m_pVJoy1, SC1::LookBehind);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Gunnery
-	MapAxis(m_pJoystick, JOY::SLEWX, AllLayers, m_pVJoy2, SC2::AxisAimLeftRight);
-	MapAxis(m_pJoystick, JOY::SLEWY, AllLayers, m_pVJoy2, SC2::AxisAimUpDown);
-	MapAxis(m_pJoystick, JOY::TRIMY, AllLayers, m_pVJoy1, SC1::AxisFlightDynamicZoom);
+	MapAxis(m_pMcgPro, JOY::SLEWX, AllLayers, m_pVJoy2, SC2::AxisAimLeftRight);
+	MapAxis(m_pMcgPro, JOY::SLEWY, AllLayers, m_pVJoy2, SC2::AxisAimUpDown);
+	MapAxis(m_pMcgPro, JOY::TRIMY, AllLayers, m_pVJoy1, SC1::AxisFlightDynamicZoom);
+
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage1); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage2); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Mushy); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage1); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage2); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Mushy); }));
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::AcquireMissileLock);
+	MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::LaunchMissile);
+	MapButton(m_pMcgPro, JOY::BtnMidRight, AllLayers, m_pVJoy2, SC2::LaunchCountermeasure);
+	MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::CycleCountermeasureAmmo);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Targeting
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ResetAim);
+	//MapButton(m_pMcgPro, JOY::PressSlew, AllLayers, m_pVJoy1, SC1::LookAhead);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::GimbalLock);
+
+	MapButtonTempo(m_pMcgPro, JOY::HatHeadPress, AllLayers, ms2cycles(500), new ActionButtonPulse(m_pVJoy1, SC1::ReticleFocus, m_uiPULSE_AMT), new ActionButtonPulse(m_pVJoy1, SC1::PinFocusedTarget, m_uiPULSE_AMT));
+	MapButtonTempo(m_pMcgPro, JOY::HatHeadUp, AllLayers, ms2cycles(500), new ActionButtonPulse(m_pVJoy1, SC1::CycleAllTargets, m_uiPULSE_AMT), new ActionButtonPulse(m_pVJoy1, SC1::CycleAllTargetsBack, m_uiPULSE_AMT));
+	MapButtonTempo(m_pMcgPro, JOY::HatHeadLeft, AllLayers, ms2cycles(500), new ActionButtonPulse(m_pVJoy1, SC1::CycleHostileTargetsBack, m_uiPULSE_AMT), new ActionButtonPulse(m_pVJoy1, SC1::CycleFriendlyTargetBack, m_uiPULSE_AMT));
+	MapButtonTempo(m_pMcgPro, JOY::HatHeadRight, AllLayers, ms2cycles(500), new ActionButtonPulse(m_pVJoy1, SC1::CycleHostileTargets, m_uiPULSE_AMT), new ActionButtonPulse(m_pVJoy1, SC1::CycleFriendlyTarget, m_uiPULSE_AMT));
+	MapButtonTempo(m_pMcgPro, JOY::HatHeadDown, AllLayers, ms2cycles(500), new ActionButtonPulse(m_pVJoy1, SC1::TargetNearestHostile, m_uiPULSE_AMT), new ActionButtonPulse(m_pVJoy1, SC1::CyclePinnedTargets, m_uiPULSE_AMT));
+
+	MapButton(m_pMcgPro, JOY::PressSlew, AllLayers, m_pVJoy1, SC1::ToggleReticleMode);
+	MapButton(m_pMcgPro, JOY::PressTrim, AllLayers, m_pVJoy1, SC1::TargetFocus);
+
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ToggleMiningMode);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ToggleScanningMode);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ScanningRadarPing);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ScanningIncreaseRadarAngle);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ScanningDecreaseRadarAngle);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// On Foot
 	MapAxis(m_pG13, G13::JOYX, AllLayers, m_pVJoy2, SC2::AxisOnFootLeftRight);
 	MapAxis(m_pG13, G13::JOYY, AllLayers, m_pVJoy2, SC2::AxisOnFootFwdBck);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Shields
+	MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldResetLevels);
+	MapButton(m_pMcgPro, JOY::HatMidUp, AllLayers, m_pVJoy2, SC2::ShieldRaiseFront);
+	MapButton(m_pMcgPro, JOY::HatMidDown, AllLayers, m_pVJoy2, SC2::ShieldRaiseBack);
+	MapButton(m_pMcgPro, JOY::HatMidLeft, AllLayers, m_pVJoy2, SC2::ShieldRaiseLeft);
+	MapButton(m_pMcgPro, JOY::HatMidRight, AllLayers, m_pVJoy2, SC2::ShieldRaiseRight);
+	//MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldRaiseTop);
+	//MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldRaiseBottom);
 
 
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_RIGHT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
@@ -176,10 +233,10 @@ Profile::~Profile()
 	//m_pPedals->setSCurve(RUD::BRK_LEFT, 0.04f, 0.00f, 0.06f, 0.0f, 0.0f);
 	//m_pPedals->setSCurve(RUD::BRK_RIGHT, fBRAKE_RIGHT_LDZ, 0.00f, fBRAKE_RIGHT_RDZ, 0.0f, 0.0f);
 	
-	//m_pJoystick->setAxisTrim(JOY::JOYX,0.026f);
-	//m_pJoystick->setAxisTrim(JOY::JOYY,-0.006f);
-	//m_pJoystick->setSCurve(JOY::JOYX, 0.02f, 0.015f, 0.01f, 2.5f, 0.0f);
-	//m_pJoystick->setSCurve(JOY::JOYY, 0.01f, 0.015f, 0.015f, 2.5f, 0.0f);
+	//m_pMcgPro->setAxisTrim(JOY::JOYX,0.026f);
+	//m_pMcgPro->setAxisTrim(JOY::JOYY,-0.006f);
+	//m_pMcgPro->setSCurve(JOY::JOYX, 0.02f, 0.015f, 0.01f, 2.5f, 0.0f);
+	//m_pMcgPro->setSCurve(JOY::JOYY, 0.01f, 0.015f, 0.015f, 2.5f, 0.0f);
 	
 	//// CONTROL MODES AND LANDING
 	//// initialisation of control modes
@@ -223,38 +280,38 @@ Profile::~Profile()
 	//Map(m_pThrottle, ControlType::Button, THR::APUON, AllLayers, new TriggerButtonChange{}, new ActionCallback{swapYawRollToggle});
 	
 	//// weapons groups, missiles and quick targeting
-	//MapButton(m_pJoystick, JOY::TG1, AllLayers, m_pVirtualJoy1, SC1::FireGroup1);
-	//MapButton(m_pJoystick, JOY::TG2, AllLayers, m_pVirtualJoy1, SC1::FireGroup2); // to shoot 1 and 2 simultaneously with one finger only
-	//MapButton(m_pJoystick, JOY::S3,  AllLayers, m_pVirtualJoy1, SC1::FireGroup2);
+	//MapButton(m_pMcgPro, JOY::TG1, AllLayers, m_pVirtualJoy1, SC1::FireGroup1);
+	//MapButton(m_pMcgPro, JOY::TG2, AllLayers, m_pVirtualJoy1, SC1::FireGroup2); // to shoot 1 and 2 simultaneously with one finger only
+	//MapButton(m_pMcgPro, JOY::S3,  AllLayers, m_pVirtualJoy1, SC1::FireGroup2);
 	//
 	//// IFCS safeties and look behind (HAT 1)
-	//MapButton(m_pJoystick, JOY::H1L, {"o"}, m_pVirtualJoy1, SC1::GForceSafetyToggle);
-	//MapButton(m_pJoystick, JOY::H1U, {"o"}, m_pVirtualJoy1, SC1::ComstabToggle);
-	//MapButton(m_pJoystick, JOY::H1R, {"o"}, m_pVirtualJoy1, SC1::ESPToggle);
-	//MapButton(m_pJoystick, JOY::H1D, AllLayers, m_pVirtualJoy1, SC1::LookBehind);
+	//MapButton(m_pMcgPro, JOY::H1L, {"o"}, m_pVirtualJoy1, SC1::GForceSafetyToggle);
+	//MapButton(m_pMcgPro, JOY::H1U, {"o"}, m_pVirtualJoy1, SC1::ComstabToggle);
+	//MapButton(m_pMcgPro, JOY::H1R, {"o"}, m_pVirtualJoy1, SC1::ESPToggle);
+	//MapButton(m_pMcgPro, JOY::H1D, AllLayers, m_pVirtualJoy1, SC1::LookBehind);
 	//
 	//// config led brightness and backlit
-	//Map(m_pJoystick, ControlType::Button, JOY::H1L, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->ledBrightnessDown();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H1U, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->toggleBacklit();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H1R, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->ledBrightnessUp();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H1L, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->ledBrightnessDown();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H1U, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->toggleBacklit();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H1R, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this](){this->ledBrightnessUp();}});
 	//
 	//// COUNTER-MEASURES (hat 2 L/R)
-	//MapButton(m_pJoystick, JOY::H2L, AllLayers, m_pVirtualJoy1, SC1::CycleCounterMeasures);
-	//MapButton(m_pJoystick, JOY::H2R, AllLayers, m_pVirtualJoy1, SC1::LaunchCounterMeasures);
+	//MapButton(m_pMcgPro, JOY::H2L, AllLayers, m_pVirtualJoy1, SC1::CycleCounterMeasures);
+	//MapButton(m_pMcgPro, JOY::H2R, AllLayers, m_pVirtualJoy1, SC1::LaunchCounterMeasures);
 	//
 	//// STRAFE (HAT 3)
-	//MapButton(m_pJoystick, JOY::H3L, AllLayers, m_pVirtualJoy1, SC1::StrafeLeft);
-	//MapButton(m_pJoystick, JOY::H3R, AllLayers, m_pVirtualJoy1, SC1::StrafeRight);
+	//MapButton(m_pMcgPro, JOY::H3L, AllLayers, m_pVirtualJoy1, SC1::StrafeLeft);
+	//MapButton(m_pMcgPro, JOY::H3R, AllLayers, m_pVirtualJoy1, SC1::StrafeRight);
 	//
 	//// TARGET SELECTION (hat 4)
-	//Map(m_pJoystick, ControlType::Button, JOY::H4L, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browsePinnedTargets();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H4R, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseAllTargets();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H4U, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseHostileTargets();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H4D, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseFriendTargets();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H4L, {"o"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->previousTarget();}});
-	//Map(m_pJoystick, ControlType::Button, JOY::H4R, {"o"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->nextTarget();}});
-	//MapButton(m_pJoystick, JOY::H4U, {"o"}, m_pVirtualJoy1, SC1::PinFocusedTarget);
-	//MapButton(m_pJoystick, JOY::H4D, {"o"}, m_pVirtualJoy1, SC1::AcquireMissileLock);
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4L, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browsePinnedTargets();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4R, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseAllTargets();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4U, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseHostileTargets();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4D, {"i"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->browseFriendTargets();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4L, {"o"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->previousTarget();}});
+	//Map(m_pMcgPro, ControlType::Button, JOY::H4R, {"o"}, new TriggerButtonPress{}, new ActionCallback{[this]() {this->nextTarget();}});
+	//MapButton(m_pMcgPro, JOY::H4U, {"o"}, m_pVirtualJoy1, SC1::PinFocusedTarget);
+	//MapButton(m_pMcgPro, JOY::H4D, {"o"}, m_pVirtualJoy1, SC1::AcquireMissileLock);
 	
 	//// POWER
 	//MapButton(m_pThrottle, THR::EOLIGN, AllLayers, m_pVirtualJoy2, SC2::FlightReady);
@@ -354,6 +411,24 @@ void Profile::DoToeBrake()
 	}
 }
 
+void Profile::DoTriggerPull(TriggerStage eStage)
+{
+	switch(eStage)
+	{
+	case Stage1:
+		m_pVJoy1->setButton(SC1::FireWeaponGroup1, m_pMcgPro->buttonPressed(JOY::TriggerStage1));
+		m_pVJoy1->setButton(SC1::FireWeaponGroup2, m_pMcgPro->buttonPressed(JOY::TriggerStage1));
+		break;
+
+	case Stage2:
+		m_pVJoy1->setAxis(SC1::AxisFlightDynamicZoom, m_pMcgPro->buttonPressed(JOY::TriggerStage2) ? 0.75f : 0.0f);
+		break;
+
+	case Mushy:
+		break;
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// BROWSE HOSTILE TARGETS /////////////////////////////////////////////////////
 //void Profile::browseHostileTargets() { m_targetsTypeToCycle = 1; }
@@ -420,15 +495,15 @@ void Profile::DoToeBrake()
 //// RESET DXXY TRIMS ///////////////////////////////////////////////////////////
 //void Profile::reset_dxxy_trims()
 //{
-//	//m_pJoystick->setAxisTrim(JOY::JOYX,0.0f);
-//	//m_pJoystick->setAxisTrim(JOY::JOYY,0.0f);
+//	//m_pMcgPro->setAxisTrim(JOY::JOYX,0.0f);
+//	//m_pMcgPro->setAxisTrim(JOY::JOYY,0.0f);
 //}
 //
 //// SET DXXY TRIMS /////////////////////////////////////////////////////////////
 //void Profile::set_dxxy_trims()
 //{
-//	//m_pJoystick->setAxisTrim(JOY::JOYX,-m_pJoystick->axisRawValue(JOY::JOYX));
-//	//m_pJoystick->setAxisTrim(JOY::JOYY,-m_pJoystick->axisRawValue(JOY::JOYY));
+//	//m_pMcgPro->setAxisTrim(JOY::JOYX,-m_pMcgPro->axisRawValue(JOY::JOYX));
+//	//m_pMcgPro->setAxisTrim(JOY::JOYY,-m_pMcgPro->axisRawValue(JOY::JOYY));
 //}
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -509,20 +584,20 @@ void Profile::DoToeBrake()
 //// set_S4_for_nothing
 //void Profile::set_S4_for_horn()
 //{
-//	//UnmapButton(m_pJoystick, JOY::S4);
-//	//MapButton(m_pJoystick, JOY::S4, AllLayers, m_pVirtualJoy2, SC2::Horn);
+//	//UnmapButton(m_pMcgPro, JOY::S4);
+//	//MapButton(m_pMcgPro, JOY::S4, AllLayers, m_pVirtualJoy2, SC2::Horn);
 //}
 //
 //void Profile::set_S4_for_landing()
 //{
-//	//UnmapButton(m_pJoystick, JOY::S4);
-//	//Map(m_pJoystick, ControlType::Button, JOY::S4, AllLayers, new TriggerButtonPress{}, new ActionCallback{[this]() {this->set_JOYXY_for_strafe();}});
-//	//Map(m_pJoystick, ControlType::Button, JOY::S4, AllLayers, new TriggerButtonRelease{}, new ActionCallback{[this]() {this->set_JOYXY_for_rollNpitch();}});
+//	//UnmapButton(m_pMcgPro, JOY::S4);
+//	//Map(m_pMcgPro, ControlType::Button, JOY::S4, AllLayers, new TriggerButtonPress{}, new ActionCallback{[this]() {this->set_JOYXY_for_strafe();}});
+//	//Map(m_pMcgPro, ControlType::Button, JOY::S4, AllLayers, new TriggerButtonRelease{}, new ActionCallback{[this]() {this->set_JOYXY_for_rollNpitch();}});
 //}
 //
 //void Profile::set_S4_for_nothing()
 //{
-//	//	UnmapButton(m_pJoystick, JOY::S4);
+//	//	UnmapButton(m_pMcgPro, JOY::S4);
 //}
 //
 //
@@ -538,16 +613,16 @@ void Profile::DoToeBrake()
 //// set_JOYXY_for_rollNpitch
 //void Profile::set_JOYXY_for_turn()
 //{
-//	//UnmapAxis(m_pJoystick, JOY::JOYX);
-//	//UnmapAxis(m_pJoystick, JOY::JOYY);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYX);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYY);
 //	//
-//	//MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVirtualJoy2, SC2::AxisGroundLat, AxisDirection::Normal);
-//	//m_pVirtualJoy2->setAxis(SC2::AxisGroundLat, m_pJoystick->axisValue(JOY::JOYX));
+//	//MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVirtualJoy2, SC2::AxisGroundLat, AxisDirection::Normal);
+//	//m_pVirtualJoy2->setAxis(SC2::AxisGroundLat, m_pMcgPro->axisValue(JOY::JOYX));
 //}
 //
 //void Profile::set_JOYXY_for_landing()
 //{
-//	//if (m_pJoystick->buttonPressed(JOY::S4))
+//	//if (m_pMcgPro->buttonPressed(JOY::S4))
 //	//	this->set_JOYXY_for_strafe();
 //	//else
 //	//	this->set_JOYXY_for_rollNpitch();
@@ -555,39 +630,39 @@ void Profile::DoToeBrake()
 //
 //void Profile::set_JOYXY_for_strafe()
 //{
-//	//UnmapAxis(m_pJoystick, JOY::JOYX);
-//	//UnmapAxis(m_pJoystick, JOY::JOYY);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYX);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYY);
 //	//
 //	//// set roll and pitch axes at 0, otherwise they keep their last values
 //	//m_pVirtualJoy1->setAxis(SC1::AxisFlightRoll, 0.0f);
 //	//m_pVirtualJoy1->setAxis(SC1::AxisFlightPitch, 0.0f);
 //	//
 //	//// joystick -> strafe
-//	//MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightStrafeLat, AxisDirection::Normal);
-//	//MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightStrafeLongi, AxisDirection::Reversed);
+//	//MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightStrafeLat, AxisDirection::Normal);
+//	//MapAxis(m_pMcgPro, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightStrafeLongi, AxisDirection::Reversed);
 //	//
 //	//// set strafe axes at correct value, otherwise it is necessary to wait for a movement of the stick
-//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLat, m_pJoystick->axisValue(JOY::JOYX));
-//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLongi, -m_pJoystick->axisValue(JOY::JOYY));
+//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLat, m_pMcgPro->axisValue(JOY::JOYX));
+//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLongi, -m_pMcgPro->axisValue(JOY::JOYY));
 //	//m_pVirtualJoy2->setButton(SC2::Brake,false);
 //}
 //
 //void Profile::set_JOYXY_for_rollNpitch()
 //{
-//	//UnmapAxis(m_pJoystick, JOY::JOYX);
-//	//UnmapAxis(m_pJoystick, JOY::JOYY);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYX);
+//	//UnmapAxis(m_pMcgPro, JOY::JOYY);
 //
 //	// set strafe axes at 0, otherwise they keep their last values
 //	m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLat, 0.0f);
 //	m_pVirtualJoy1->setAxis(SC1::AxisFlightStrafeLongi, 0.0f);
 //
 //	//// joystick : roll and pitch
-//	//MapAxis(m_pJoystick, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightRoll, AxisDirection::Normal);
-//	//MapAxis(m_pJoystick, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightPitch, AxisDirection::Normal);
+//	//MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVirtualJoy1, SC1::AxisFlightRoll, AxisDirection::Normal);
+//	//MapAxis(m_pMcgPro, JOY::JOYY, AllLayers, m_pVirtualJoy1, SC1::AxisFlightPitch, AxisDirection::Normal);
 //
 //	// set roll and pitch axes at correct value, otherwise it is necessary to wait for a movement of the stick
-//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightRoll, m_pJoystick->axisValue(JOY::JOYX));
-//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightPitch, m_pJoystick->axisValue(JOY::JOYY));
+//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightRoll, m_pMcgPro->axisValue(JOY::JOYX));
+//	//m_pVirtualJoy1->setAxis(SC1::AxisFlightPitch, m_pMcgPro->axisValue(JOY::JOYY));
 //	m_pVirtualJoy2->setButton(SC2::Brake, false);
 //}
 //
@@ -599,40 +674,40 @@ void Profile::DoToeBrake()
 //// set_BUTTONS_for_cruise
 //void Profile::set_BUTTONS_for_landing()
 //{
-//	//UnmapButton(m_pJoystick, JOY::S1);
-//	//UnmapButton(m_pJoystick, JOY::S2);
-//	//UnmapButton(m_pJoystick, JOY::H2U);
-//	//UnmapButton(m_pJoystick, JOY::H2D);
-//	//UnmapButton(m_pJoystick, JOY::H3U);
-//	//UnmapButton(m_pJoystick, JOY::H3D);
+//	//UnmapButton(m_pMcgPro, JOY::S1);
+//	//UnmapButton(m_pMcgPro, JOY::S2);
+//	//UnmapButton(m_pMcgPro, JOY::H2U);
+//	//UnmapButton(m_pMcgPro, JOY::H2D);
+//	//UnmapButton(m_pMcgPro, JOY::H3U);
+//	//UnmapButton(m_pMcgPro, JOY::H3D);
 //	//
-//	//MapButton(m_pJoystick, JOY::S1, {"i"}, m_pVirtualJoy1, SC1::TargetNearestHostile);
-//	//MapButton(m_pJoystick, JOY::S1, {"o"}, m_pVirtualJoy1, SC1::CycleAllTargets); // to cycle landing pads
-//	////MapButton(m_pJoystick, JOY::S2, AllLayers, m_pVirtualJoy1, SC1::LandingTargetLockOnToggle); // to select a landing pad
+//	//MapButton(m_pMcgPro, JOY::S1, {"i"}, m_pVirtualJoy1, SC1::TargetNearestHostile);
+//	//MapButton(m_pMcgPro, JOY::S1, {"o"}, m_pVirtualJoy1, SC1::CycleAllTargets); // to cycle landing pads
+//	////MapButton(m_pMcgPro, JOY::S2, AllLayers, m_pVirtualJoy1, SC1::LandingTargetLockOnToggle); // to select a landing pad
 //	//
-//	//MapButton(m_pJoystick, JOY::H2U, AllLayers, m_pVirtualJoy1, SC1::StrafeUp);
-//	//MapButton(m_pJoystick, JOY::H2D, AllLayers, m_pVirtualJoy1, SC1::StrafeDown);
-//	//MapButton(m_pJoystick, JOY::H3U, AllLayers, m_pVirtualJoy1, SC1::StrafeForward);
-//	//MapButton(m_pJoystick, JOY::H3D, AllLayers, m_pVirtualJoy1, SC1::StrafeBackwards);
+//	//MapButton(m_pMcgPro, JOY::H2U, AllLayers, m_pVirtualJoy1, SC1::StrafeUp);
+//	//MapButton(m_pMcgPro, JOY::H2D, AllLayers, m_pVirtualJoy1, SC1::StrafeDown);
+//	//MapButton(m_pMcgPro, JOY::H3U, AllLayers, m_pVirtualJoy1, SC1::StrafeForward);
+//	//MapButton(m_pMcgPro, JOY::H3D, AllLayers, m_pVirtualJoy1, SC1::StrafeBackwards);
 //}
 //
 //void Profile::set_BUTTONS_for_cruise()
 //{
-//	//UnmapButton(m_pJoystick, JOY::S1);
-//	//UnmapButton(m_pJoystick, JOY::S2);
-//	//UnmapButton(m_pJoystick, JOY::H2U);
-//	//UnmapButton(m_pJoystick, JOY::H2D);
-//	//UnmapButton(m_pJoystick, JOY::H3U);
-//	//UnmapButton(m_pJoystick, JOY::H3D);
+//	//UnmapButton(m_pMcgPro, JOY::S1);
+//	//UnmapButton(m_pMcgPro, JOY::S2);
+//	//UnmapButton(m_pMcgPro, JOY::H2U);
+//	//UnmapButton(m_pMcgPro, JOY::H2D);
+//	//UnmapButton(m_pMcgPro, JOY::H3U);
+//	//UnmapButton(m_pMcgPro, JOY::H3D);
 //	//
-//	//MapButton(m_pJoystick, JOY::S1, {"i"}, m_pVirtualJoy1, SC1::TargetNearestHostile);
-//	//MapButton(m_pJoystick, JOY::S1, {"o"}, m_pVirtualJoy1, SC1::CycleHostileTargets);
-//	//MapButton(m_pJoystick, JOY::S2, AllLayers, m_pVirtualJoy1, SC1::LaunchMissile);
+//	//MapButton(m_pMcgPro, JOY::S1, {"i"}, m_pVirtualJoy1, SC1::TargetNearestHostile);
+//	//MapButton(m_pMcgPro, JOY::S1, {"o"}, m_pVirtualJoy1, SC1::CycleHostileTargets);
+//	//MapButton(m_pMcgPro, JOY::S2, AllLayers, m_pVirtualJoy1, SC1::LaunchMissile);
 //	//
-//	//MapButton(m_pJoystick, JOY::H2U, AllLayers, m_pVirtualJoy1, SC1::StrafeForward);
-//	//MapButton(m_pJoystick, JOY::H2D, AllLayers, m_pVirtualJoy1, SC1::StrafeBackwards);
-//	//MapButton(m_pJoystick, JOY::H3U, AllLayers, m_pVirtualJoy1, SC1::StrafeUp);
-//	//MapButton(m_pJoystick, JOY::H3D, AllLayers, m_pVirtualJoy1, SC1::StrafeDown);
+//	//MapButton(m_pMcgPro, JOY::H2U, AllLayers, m_pVirtualJoy1, SC1::StrafeForward);
+//	//MapButton(m_pMcgPro, JOY::H2D, AllLayers, m_pVirtualJoy1, SC1::StrafeBackwards);
+//	//MapButton(m_pMcgPro, JOY::H3U, AllLayers, m_pVirtualJoy1, SC1::StrafeUp);
+//	//MapButton(m_pMcgPro, JOY::H3D, AllLayers, m_pVirtualJoy1, SC1::StrafeDown);
 //}
 //
 //

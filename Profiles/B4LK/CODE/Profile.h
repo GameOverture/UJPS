@@ -4,6 +4,13 @@
 #include "AbstractProfile.h"
 class EnhancedJoystick;
 
+enum TriggerStage
+{
+	Stage1 = 1,
+	Stage2,
+	Mushy
+};
+
 class Profile : public AbstractProfile
 {
 	Q_OBJECT
@@ -12,7 +19,7 @@ class Profile : public AbstractProfile
 
 	const uint			m_uiPULSE_AMT;
 
-	EnhancedJoystick *	m_pJoystick;	// VKB Gunfighter mkII MCG Pro
+	EnhancedJoystick *	m_pMcgPro;	// VKB Gunfighter mkII MCG Pro
 	EnhancedJoystick *	m_pThrottle;	// Thrustmaster Warthog Throttle
 	EnhancedJoystick *	m_pPedals;		// Saitek Pro Flight Combat Rudder Pedals
 	EnhancedJoystick *	m_pG13;			// Logitech G13
@@ -43,6 +50,7 @@ private:
 
 	void DoStrafe();
 	void DoToeBrake();
+	void DoTriggerPull(TriggerStage eStage);
 
 	// led configuration
 	void ledBrightnessDown();
