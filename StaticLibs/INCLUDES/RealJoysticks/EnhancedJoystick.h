@@ -49,6 +49,7 @@ class REALJOYSTICKS_EXPORT EnhancedJoystick : public AbstractRealJoystick
 		void setButtonLocked(uint button, bool locked);
 		void setAxisLocked(uint axis, bool locked);
 		void setAxisTrim(uint axis, float trim, AbsoluteOrRelative aor = AbsoluteOrRelative::Absolute);
+		void setAxisInverted(uint axis, bool bInverted);
 		float axisRawValue(uint axis) const;
 		void setPovLocked(uint pov, bool locked);
 		
@@ -70,6 +71,7 @@ class REALJOYSTICKS_EXPORT EnhancedJoystick : public AbstractRealJoystick
 		
 		std::array<bool,8> m_axesLocked;
 		std::array<float,8> m_axesTrim;
+		std::array<float,8> m_axesInversionMod;
 		std::array<float,8> m_axesValuesBeforeLock;
 		std::array<AbstractAxisCurve*,8> m_axesCurves;
 		std::vector<uint> m_axesToUpdate;
