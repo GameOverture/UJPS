@@ -59,6 +59,7 @@ EnhancedJoystick::EnhancedJoystick(AbstractRealJoystick *j, bool bOwn) : Abstrac
 	for (bool& b : m_buttonsValuesBeforeLock) {b = false;}
 	for (bool& b : m_axesLocked) {b = false;}
 	for (float& f : m_axesTrim) {f = 0.0f;}
+	for (float&f : m_axesInversionMod) {f = 1.0f;}
 	for (float& f : m_axesValuesBeforeLock) {f = 0.0f;}
 	for (AbstractAxisCurve*& c : m_axesCurves) {c = nullptr;}
 	for (bool& b : m_povsLocked) {b = false;}
@@ -159,6 +160,7 @@ float EnhancedJoystick::axisValue(uint axis) const
 	float v = m_j->axisValue(axis);
 	v += m_axesTrim[axis];										// we add the trim
 	if (m_axesCurves[axis]) {v = m_axesCurves[axis]->run(v);}	// we apply the curve if needed
+	v *= m_axesInversionMod[axis];								// we set whether it's inverted
 	return lim<float>(v, -1.0f, 1.0f);							// we limit between -1 and 1
 }
 // AXIS NAME //////////////////////////////////////////////////////////////////
@@ -221,6 +223,11 @@ void EnhancedJoystick::setAxisTrim(uint axis, float trim, AbsoluteOrRelative aor
 		m_axesTrim[axis] = lim<float>(m_axesTrim[axis]+trim,-1.0f,1.0f);
 	
 	this->updateAxis(axis);
+}
+
+void EnhancedJoystick::setAxisInverted(uint axis, bool bInverted)
+{
+	m_axesInversionMod[axis] = bInverted ? -1.0f : 1.0f;
 }
 
 // AXIS RAW VALUE /////////////////////////////////////////////////////////////
