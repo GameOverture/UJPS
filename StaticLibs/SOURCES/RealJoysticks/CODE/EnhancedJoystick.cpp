@@ -111,6 +111,9 @@ QVector<JoystickChange> EnhancedJoystick::changes()
 			float v = ch.axisOrPovValue + m_axesTrim[ch.numButtonAxisPov];	// we add the trim
 			if (m_axesCurves[ch.numButtonAxisPov])
 				v = m_axesCurves[ch.numButtonAxisPov]->run(v);			// we apply the curve
+
+			v *= m_axesInversionMod[ch.numButtonAxisPov];
+
 			ch.axisOrPovValue = lim<float>(v,-1.0f,1.0f);					// we limit between -1 and 1
 		}
 	}

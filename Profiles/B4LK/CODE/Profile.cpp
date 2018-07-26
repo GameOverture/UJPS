@@ -40,7 +40,7 @@ const float fBRAKE_THRESHOLD = -0.80f;
 
 Profile::Profile() :	AbstractProfile(),
 						m_uiPULSE_AMT(ms2cycles(150)),	// 150 ms for Star Citizen because of the current low framerate
-						m_pMcgPro(nullptr),			// VKB Gunfighter mkII MCG Pro
+						m_pMcgPro(nullptr),				// VKB Gunfighter mkII MCG Pro
 						m_pThrottle(nullptr),			// Thrustmaster Warthog Throttle
 						m_pPedals(nullptr),				// Saitek Pro Flight Combat Rudder Pedals
 						m_pG13(nullptr),
@@ -110,14 +110,14 @@ Profile::~Profile()
 	if (!m_pMcgPro || !m_pThrottle || !m_pPedals || !m_pG13)
 		return false;
 	
-	// Virtual joystick setup (Star Citizen reads these backwards, so reversing them here)
-	m_pVJoy2 = new VirtualJoystick{1};
+	// Virtual joystick setup
+	m_pVJoy1 = new VirtualJoystick{1};
 	LOG_MSG("Virtual joystick 1 configured");
-	this->registerVirtualJoystick(m_pVJoy2);
-
-	m_pVJoy1 = new VirtualJoystick{2};
-	LOG_MSG("Virtual joystick 2 configured");
 	this->registerVirtualJoystick(m_pVJoy1);
+
+	m_pVJoy2 = new VirtualJoystick{2};
+	LOG_MSG("Virtual joystick 2 configured");
+	this->registerVirtualJoystick(m_pVJoy2);
 	
 	return true;
 }
@@ -138,9 +138,10 @@ Profile::~Profile()
 	m_pThrottle->setData("LED5",false);
 
 	// Fixup joysticks axis
-	m_pMcgPro->setAxisTrim(JOY::JOYY, -0.21f); // Heavy trim needed on MCG Pro DansGame
-	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f);
-	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.0f);
+	//m_pMcgPro->setAxisTrim(JOY::JOYY, -0.21f); // Heavy trim needed on MCG Pro DansGame
+	//m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, 0.0f, 
+	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.3f);
+	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.6f);
 	m_pG13->setAxisInverted(G13::JOYY, true);
 	m_pPedals->setAxisInverted(RUD::RUDDER, true);
 
