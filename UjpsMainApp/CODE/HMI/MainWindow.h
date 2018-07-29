@@ -81,7 +81,8 @@ class MainWindow : public QWidget
 		CompilationWidget *m_compilWidget;
 		ProfileEngine *m_engine;
 
-		QNetworkAccessManager *m_pNetworkManager;
+		bool					m_bPlayOnBoot;
+		QNetworkAccessManager *	m_pNetworkManager;
 };
 
 #endif

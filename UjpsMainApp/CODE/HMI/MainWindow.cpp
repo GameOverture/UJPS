@@ -47,6 +47,7 @@
 
 // CONSTRUCTEUR ET DESTRUCTEUR ////////////////////////////////////////////////
 MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *parent) :	QWidget(parent),
+																						m_bPlayOnBoot(false),
 																						m_pNetworkManager(new QNetworkAccessManager(this))
 {
 	// read settings
@@ -91,7 +92,8 @@ MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *paren
 		
 		boxRefreshRate->setValue(dtms);
 		
-		if (bPlay) {this->slotPlay();}
+		if(bPlay)
+			m_bPlayOnBoot = true;
 	}
 
 	connect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
@@ -101,7 +103,6 @@ MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *paren
 
 MainWindow::~MainWindow()
 {
-	QObject::disconnect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 	QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/remove/") + QString::number(QCoreApplication::applicationPid()));
 	QNetworkReply *pReply = m_pNetworkManager->get(QNetworkRequest(url));
 	QEventLoop event;
@@ -399,8 +400,11 @@ void MainWindow::replyFinished(QNetworkReply *reply)
 		// Here we got the final reply 
 		QString replyText = reply->readAll();
 
-		if(replyText == "[\"OK\"]")
+		if(replyText == "[\"OK\"]" && m_bPlayOnBoot == true)
+		{
 			this->slotPlay();
+			m_bPlayOnBoot = false;
+		}
 	} 
 	else if (v >= 300 && v < 400) // Redirection
 	{
