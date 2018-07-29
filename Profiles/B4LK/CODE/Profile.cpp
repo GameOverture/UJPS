@@ -143,6 +143,7 @@ Profile::~Profile()
 	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.3f);
 	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.6f);
 	m_pG13->setAxisInverted(G13::JOYY, true);
+	m_pPedals->setSCurve(RUD::RUDDER, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f);
 	m_pPedals->setAxisInverted(RUD::RUDDER, true);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,8 +156,10 @@ Profile::~Profile()
 	// Propulsion
 	MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVJoy1, SC1::AxisFlightYaw);
 	MapAxis(m_pMcgPro, JOY::JOYY, AllLayers, m_pVJoy1, SC1::AxisFlightPitch);
-	MapAxis(m_pThrottle, THR::THR_LEFT, AllLayers, m_pVJoy1, SC1::AxisFlightThrottle);
 	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVJoy1, SC1::AxisFlightRoll);
+
+	Map(m_pThrottle, ControlType::Axis, THR::THR_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pMcgPro, ControlType::Axis, JOY::BRAKE, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
 
 	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
@@ -363,6 +366,19 @@ Profile::~Profile()
 
 void Profile::DoStrafe()
 {
+	if(m_pMcgPro->axisValue(JOY::BRAKE) == -1.0f)
+	{
+		m_pVJoy1->setAxis(SC1::AxisFlightThrottle, m_pThrottle->axisValue(THR::THR_LEFT));
+		m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, 0.0f);
+	}
+	else
+	{
+		m_pVJoy1->setAxis(SC1::AxisFlightThrottle, 1.0f);
+		float fReverseThrottleAmt = m_pMcgPro->axisValue(JOY::BRAKE);
+		fReverseThrottleAmt = (fReverseThrottleAmt * -0.5f) + 0.5f; // Normalize [0.0 - 1.0]
+		m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, (1.0f - fReverseThrottleAmt) * -1.0f);
+	}
+
 	float fSliderValue = 1.0f;
 
 	if(m_pThrottle->buttonPressed(THR::FLAPD))
