@@ -1,7 +1,7 @@
 #ifndef MAIN_WINDOW
 #define MAIN_WINDOW
 
-
+#include <QNetworkReply>
 #include <QWidget>
 #include <QCloseEvent>
 class TextEdit;
@@ -50,6 +50,7 @@ class MainWindow : public QWidget
 		void slotPlay();
 		void slotStop();
 		void slotUnload();
+		void replyFinished(QNetworkReply *pReply);
 		
 		
 	protected:
@@ -79,6 +80,8 @@ class MainWindow : public QWidget
 		QString m_dllFileName;
 		CompilationWidget *m_compilWidget;
 		ProfileEngine *m_engine;
+
+		QNetworkAccessManager *m_pNetworkManager;
 };
 
 #endif

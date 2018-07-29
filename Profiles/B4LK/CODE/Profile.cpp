@@ -138,8 +138,8 @@ Profile::~Profile()
 	m_pThrottle->setData("LED5",false);
 
 	// Fixup joysticks axis
-	//m_pMcgPro->setAxisTrim(JOY::JOYY, -0.21f); // Heavy trim needed on MCG Pro DansGame
-	//m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, 0.0f, 
+	m_pMcgPro->setAxisTrim(JOY::JOYY, -0.21f); // Heavy trim needed on MCG Pro DansGame
+	//m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f);
 	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.3f);
 	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.6f);
 	m_pG13->setAxisInverted(G13::JOYY, true);

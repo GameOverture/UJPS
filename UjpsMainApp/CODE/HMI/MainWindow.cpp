@@ -8,7 +8,12 @@
 #include <QSpinBox>
 #include <QCheckBox>
 #include <QThread>
+#include <QNetworkAccessManager>
+#include <QUrl>
+#include <QIODevice>
 #include <QFileDialog>
+#include <QCoreApplication>
+#include <QMessageBox>
 
 #include "../ProfileEngine.h"
 #include "MainWindow.h"
@@ -41,7 +46,8 @@
 
 
 // CONSTRUCTEUR ET DESTRUCTEUR ////////////////////////////////////////////////
-MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *parent) : QWidget(parent)
+MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *parent) :	QWidget(parent),
+																						m_pNetworkManager(new QNetworkAccessManager(this))
 {
 	// read settings
 	ApplicationSettings& settings = ApplicationSettings::instance();
@@ -87,10 +93,22 @@ MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *paren
 		
 		if (bPlay) {this->slotPlay();}
 	}
+
+	connect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+	QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/add/") + QString::number(QCoreApplication::applicationPid()));
+	m_pNetworkManager->get(QNetworkRequest(url));
 }
 
 MainWindow::~MainWindow()
 {
+	QObject::disconnect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+	QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/remove/") + QString::number(QCoreApplication::applicationPid()));
+	QNetworkReply *pReply = m_pNetworkManager->get(QNetworkRequest(url));
+	QEventLoop event;
+	connect(pReply, SIGNAL(finished()), &event,SLOT(quit()));
+	event.exec();
+	QString html = pReply->readAll(); // Source should be stored here
+
 	// write settings
 	ApplicationSettings& settings = ApplicationSettings::instance();
 	if (!settings.isEmpty()) {settings.writeFile();}
@@ -362,5 +380,39 @@ void MainWindow::slotUnload()
 {
 	m_engine->unloadProfile();
 	this->setState(HmiState::ReadyToPlayNotLoaded);
+}
+
+void MainWindow::replyFinished(QNetworkReply *reply)
+{
+	reply->deleteLater();
+
+	if(reply->error() != QNetworkReply::NoError)
+	{
+		QMessageBox::critical(this, "ViGEm Error", reply->errorString(), QMessageBox::Ok);
+		return;
+	}
+
+	// Get the http status code
+	int v = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+	if (v >= 200 && v < 300) // Success
+	{
+		// Here we got the final reply 
+		QString replyText = reply->readAll();
+
+		if(replyText == "[\"OK\"]")
+			this->slotPlay();
+	} 
+	else if (v >= 300 && v < 400) // Redirection
+	{
+		// Get the redirection url
+		QUrl newUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+		// Because the redirection url can be relative, 
+		// we have to use the previous one to resolve it 
+		newUrl = reply->url().resolved(newUrl);
+
+		QNetworkAccessManager *manager = reply->manager();
+		QNetworkRequest redirection(newUrl);
+		QNetworkReply *newReply = manager->get(redirection);
+	}
 }
 
