@@ -148,19 +148,45 @@ Profile::~Profile()
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Cockpit
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Eject);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ExitSeat);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::SelfDestruct);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::IncreaseCoolerRate);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::DecreaseCoolerRate);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::OpenAllDoors);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CloseAllDoors);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::LockAllDoors);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Camera
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CycleCameraView);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CycleCameraOrbitMode);
+	MapButton(m_pThrottle, THR::SPDB, AllLayers, m_pVJoy1, SC1::LookBehind);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Propulsion
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Spacebrake);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::MatchTargetVelocity);
+	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVJoy1, SC1::ToggleDecoupledMode);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CycleIFCS);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleGForceSafety);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleCOMSTAB);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleESP);
+	MapButton(m_pThrottle, THR::SPDF, AllLayers, m_pVJoy1, SC1::Afterburner);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Boost);
 	MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
+	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Autoland);
 	MapButton(m_pThrottle, THR::EOLIGN, AllLayers, m_pVJoy1, SC1::ToggleQuantumTravelSystem);
 	MapButton(m_pThrottle, THR::EORIGN, AllLayers, m_pVJoy1, SC1::QuantumDrive);
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Propulsion
 	MapAxis(m_pMcgPro, JOY::JOYX, AllLayers, m_pVJoy1, SC1::AxisFlightYaw);
 	MapAxis(m_pMcgPro, JOY::JOYY, AllLayers, m_pVJoy1, SC1::AxisFlightPitch);
 	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVJoy1, SC1::AxisFlightRoll);
 
-	Map(m_pThrottle, ControlType::Axis, THR::THR_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pMcgPro, ControlType::Axis, JOY::BRAKE, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
-
+	Map(m_pThrottle, ControlType::Axis, THR::THR_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
@@ -169,27 +195,6 @@ Profile::~Profile()
 	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
-
-	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVJoy1, SC1::ToggleDecoupledMode);
-	MapButton(m_pThrottle, THR::SPDF, AllLayers, m_pVJoy1, SC1::Afterburner);
-	MapButton(m_pThrottle, THR::SPDB, AllLayers, m_pVJoy1, SC1::LookBehind);
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Gunnery
-	MapAxis(m_pMcgPro, JOY::SLEWX, AllLayers, m_pVJoy2, SC2::AxisAimLeftRight);
-	MapAxis(m_pMcgPro, JOY::SLEWY, AllLayers, m_pVJoy2, SC2::AxisAimUpDown);
-	MapAxis(m_pMcgPro, JOY::TRIMY, AllLayers, m_pVJoy1, SC1::AxisFlightDynamicZoom);
-
-	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage1); }));
-	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage2); }));
-	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Mushy); }));
-	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage1); }));
-	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage2); }));
-	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Mushy); }));
-	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::AcquireMissileLock);
-	MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::LaunchMissile);
-	MapButton(m_pMcgPro, JOY::BtnMidRight, AllLayers, m_pVJoy2, SC2::LaunchCountermeasure);
-	MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::CycleCountermeasureAmmo);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Targeting
@@ -213,21 +218,71 @@ Profile::~Profile()
 	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy1, SC1::ScanningDecreaseRadarAngle);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// On Foot
-	MapAxis(m_pG13, G13::JOYX, AllLayers, m_pVJoy2, SC2::AxisOnFootLeftRight);
-	MapAxis(m_pG13, G13::JOYY, AllLayers, m_pVJoy2, SC2::AxisOnFootFwdBck);
+	// Gunnery
+	MapAxis(m_pMcgPro, JOY::SLEWX, AllLayers, m_pVJoy2, SC2::AxisAimLeftRight);
+	MapAxis(m_pMcgPro, JOY::SLEWY, AllLayers, m_pVJoy2, SC2::AxisAimUpDown);
+	MapAxis(m_pMcgPro, JOY::TRIMY, AllLayers, m_pVJoy1, SC1::AxisFlightDynamicZoom);
+
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage1); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Stage2); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoTriggerPull(Mushy); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage1, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage1); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::TriggerStage2, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Stage2); }));
+	Map(m_pMcgPro, ControlType::Button, JOY::FoldingTriggerDetent, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoTriggerPull(Mushy); }));
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::CycleWeaponAmmo);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::CycleWeaponAmmoBack);
+	//MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::AcquireMissileLock);
+	MapButton(m_pMcgPro, JOY::BtnRed, AllLayers, m_pVJoy2, SC2::LaunchMissile);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Shields
-	MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldResetLevels);
+	// Defensive
+	MapButton(m_pMcgPro, JOY::BtnMidRight, AllLayers, m_pVJoy2, SC2::LaunchCountermeasure);
+	MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::CycleCountermeasureAmmo);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::CycleCountermeasureAmmoBack);
 	MapButton(m_pMcgPro, JOY::HatMidUp, AllLayers, m_pVJoy2, SC2::ShieldRaiseFront);
 	MapButton(m_pMcgPro, JOY::HatMidDown, AllLayers, m_pVJoy2, SC2::ShieldRaiseBack);
 	MapButton(m_pMcgPro, JOY::HatMidLeft, AllLayers, m_pVJoy2, SC2::ShieldRaiseLeft);
 	MapButton(m_pMcgPro, JOY::HatMidRight, AllLayers, m_pVJoy2, SC2::ShieldRaiseRight);
 	//MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldRaiseTop);
 	//MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldRaiseBottom);
+	MapButton(m_pMcgPro, JOY::HatMidPress, AllLayers, m_pVJoy2, SC2::ShieldResetLevels);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Power
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::PowerPreset1);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::PowerPreset2);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::PowerPreset3);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::ResetPowerDistribution);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::IncreasePower);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::DecreasePower);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::IncreasePowerMax);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::DecreasePowerMin);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset1);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset2);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset3);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePower);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Radar
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePersonalIdentificationBroadcastSystem);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::CycleRadarRange);
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// UI
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::Scoreboard);
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::Map);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lights
+	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::ToggleLights);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// On Foot
+	MapAxis(m_pG13, G13::JOYX, AllLayers, m_pVJoy2, SC2::AxisOnFootLeftRight);
+	MapAxis(m_pG13, G13::JOYY, AllLayers, m_pVJoy2, SC2::AxisOnFootFwdBck);
 
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_RIGHT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 
