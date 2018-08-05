@@ -44,6 +44,8 @@
 //  SLOT UNLOAD
 ///////////////////////////////////////////////////////////////////////////////
 
+const bool bWHITELIST_PID = true;
+
 
 // CONSTRUCTEUR ET DESTRUCTEUR ////////////////////////////////////////////////
 MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *parent) :	QWidget(parent),
@@ -93,22 +95,33 @@ MainWindow::MainWindow(QString proFilePath, int dtms, bool bPlay, QWidget *paren
 		boxRefreshRate->setValue(dtms);
 		
 		if(bPlay)
-			m_bPlayOnBoot = true;
+		{
+			if(bWHITELIST_PID)
+				m_bPlayOnBoot = true;
+			else
+				this->slotPlay();
+		}
 	}
 
-	connect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
-	QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/add/") + QString::number(QCoreApplication::applicationPid()));
-	m_pNetworkManager->get(QNetworkRequest(url));
+	if(bWHITELIST_PID)
+	{
+		connect(m_pNetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+		QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/add/") + QString::number(QCoreApplication::applicationPid()));
+		m_pNetworkManager->get(QNetworkRequest(url));
+	}
 }
 
 MainWindow::~MainWindow()
 {
-	QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/remove/") + QString::number(QCoreApplication::applicationPid()));
-	QNetworkReply *pReply = m_pNetworkManager->get(QNetworkRequest(url));
-	QEventLoop event;
-	connect(pReply, SIGNAL(finished()), &event,SLOT(quit()));
-	event.exec();
-	QString html = pReply->readAll(); // Source should be stored here
+	if(bWHITELIST_PID)
+	{
+		QUrl url(QString("http://localhost:26762/api/v1/hidguardian/whitelist/remove/") + QString::number(QCoreApplication::applicationPid()));
+		QNetworkReply *pReply = m_pNetworkManager->get(QNetworkRequest(url));
+		QEventLoop event;
+		connect(pReply, SIGNAL(finished()), &event, SLOT(quit()));
+		event.exec();
+		QString html = pReply->readAll(); // Source should be stored here
+	}
 
 	// write settings
 	ApplicationSettings& settings = ApplicationSettings::instance();
