@@ -13,7 +13,8 @@
 
 // Plugin mappings
 #include "VkbMcgProJoystick.h"
-#include "ThrustmasterWarthogThrottle.h"
+//#include "ThrustmasterWarthogThrottle.h"
+#include "VirpilMongoost50Throttle.h"
 #include "SaitekProFlightCombatRudderPedals.h"
 #include "LogitechG13.h"
 
@@ -23,7 +24,7 @@ LayersCombo AllLayers{};
 using namespace Keys;
 
 namespace JOY = VkbMcgProJoystick;
-namespace THR = ThrustmasterWarthogThrottle;
+namespace THR = VirpilMongoost50Throttle;
 namespace RUD = SaitekProFlightCombatRudderPedals;
 namespace G13 = LogitechG13;
 
@@ -32,11 +33,6 @@ namespace SC2 = StarCitizenControls_vJoy2;
 
 #define LOG_MSG(str) emit message(str, Qt::black)
 #define LOG_ERROR(str) emit message(str, Qt::red)
-
-const bool  bUSE_LED = true;
-const float fBRAKE_RIGHT_LDZ = 0.055f;
-const float fBRAKE_RIGHT_RDZ = 0.1f;
-const float fBRAKE_THRESHOLD = -0.80f;
 
 Profile::Profile() :	AbstractProfile(),
 						m_uiPULSE_AMT(ms2cycles(150)),	// 150 ms for Star Citizen because of the current low framerate
@@ -47,11 +43,6 @@ Profile::Profile() :	AbstractProfile(),
 						m_pVJoy1(nullptr),
 						m_pVJoy2(nullptr)
 {
-	m_bShieldsHorizontalMode = true;
-	m_targetsTypeToCycle = 2;
-	
-	//m_bBacklit = false;
-	//m_iBrightness = 1;
 }
 
 Profile::~Profile()
@@ -122,6 +113,9 @@ Profile::~Profile()
 	return true;
 }
 
+#define SCRUVE_NORMAL_AMT 3.0f
+#define SCRUVE_PERCISION_AMT 7.0f
+
 /*virtual*/ void Profile::runFirstStep() /*override final*/
 {
 	// Initialize the virtual joysticks data using the real joysticks data be in sync with the initial mappings defined below
@@ -129,8 +123,8 @@ Profile::~Profile()
 	m_pVJoy2->resetReport();
 	
 	// Fixup joysticks axis
-	m_pMcgPro->setSCurve(JOY::JOYX, 0.0f, 0.0f, 0.0f, .8f, 0.0f);
-	m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, .8f, 0.0f);
+	m_pMcgPro->setSCurve(JOY::JOYX, 0.0f, 0.0f, 0.0f, SCRUVE_NORMAL_AMT, 0.0f);
+	m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, SCRUVE_NORMAL_AMT, 0.0f);
 
 	m_pG13->setSCurve(G13::JOYX, 0.0f, 0.05f, 0.0f, 0.0f, 0.3f);
 	m_pG13->setSCurve(G13::JOYY, 0.0f, 0.105f, 0.0f, 0.0f, 0.6f);
@@ -141,7 +135,7 @@ Profile::~Profile()
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Cockpit
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Eject);
+	MapButton(m_pThrottle, THR::T1up, AllLayers, m_pVJoy1, SC1::Eject);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ExitSeat);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::SelfDestruct);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::IncreaseCoolerRate);
@@ -278,12 +272,6 @@ Profile::~Profile()
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_RIGHT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
-
-	//MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVirtualJoy1, SC1::AxisFlightYaw);
-	//m_pPedals->setAxisTrim(RUD::RUDDER,-0.0028f);
-	//m_pPedals->setSCurve(RUD::RUDDER, 0.035f, 0.012f, 0.035f, 1.0f, 0.0f);
-	//m_pPedals->setSCurve(RUD::BRK_LEFT, 0.04f, 0.00f, 0.06f, 0.0f, 0.0f);
-	//m_pPedals->setSCurve(RUD::BRK_RIGHT, fBRAKE_RIGHT_LDZ, 0.00f, fBRAKE_RIGHT_RDZ, 0.0f, 0.0f);
 }
 
 void Profile::DoStick()
@@ -366,7 +354,17 @@ void Profile::DoTriggerPull(TriggerStage eStage)
 		break;
 
 	case Stage2:
-		m_pVJoy1->setAxis(SC1::AxisFlightDynamicZoom, m_pMcgPro->buttonPressed(JOY::TriggerStage2) ? 0.75f : 0.0f);
+		
+		//if(m_pMcgPro->buttonPressed(JOY::TriggerStage2))
+		//{
+		//	m_pMcgPro->setSCurve(JOY::JOYX, 0.0f, 0.0f, 0.0f, SCRUVE_PERCISION_AMT, 0.0f);
+		//	m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, SCRUVE_PERCISION_AMT, 0.0f);
+		//}
+		//else
+		//{
+		//	m_pMcgPro->setSCurve(JOY::JOYX, 0.0f, 0.0f, 0.0f, SCRUVE_NORMAL_AMT, 0.0f);
+		//	m_pMcgPro->setSCurve(JOY::JOYY, 0.0f, 0.0f, 0.0f, SCRUVE_NORMAL_AMT, 0.0f);
+		//}
 		break;
 
 	case Mushy:

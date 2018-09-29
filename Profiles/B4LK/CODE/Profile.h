@@ -19,20 +19,12 @@ class Profile : public AbstractProfile
 
 	const uint			m_uiPULSE_AMT;
 
-	EnhancedJoystick *	m_pMcgPro;	// VKB Gunfighter mkII MCG Pro
-	EnhancedJoystick *	m_pThrottle;	// Thrustmaster Warthog Throttle
+	EnhancedJoystick *	m_pMcgPro;		// VKB Gunfighter mkII MCG Pro
+	EnhancedJoystick *	m_pThrottle;	// Virpil Mongoost-50 Throttle
 	EnhancedJoystick *	m_pPedals;		// Saitek Pro Flight Combat Rudder Pedals
 	EnhancedJoystick *	m_pG13;			// Logitech G13
 	VirtualJoystick *	m_pVJoy1;
 	VirtualJoystick *	m_pVJoy2;
-
-	bool m_bBacklit;
-	quint8 m_iBrightness;
-
-	// shields and targeting modes
-	uint ncPulse;
-	bool m_bShieldsHorizontalMode;
-	uint m_targetsTypeToCycle;
 
 public:
 	Profile();
