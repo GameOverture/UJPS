@@ -23,82 +23,111 @@ namespace VirpilMongoost50Throttle_
 	const uint DIAL_A1 = 5;
 
 	// Buttons
-	const uint BtnLatch = 0;
+	const uint BtnLatch = 99;
 	
+	const uint BtnPinkyBack = 0;
 	const uint BtnPinky = 1;
-	const uint BtnPinkyBack = 2;
+	const uint BtnMiddle = 2;
 
-	const uint HatPointerLeft = 3;
+	const uint HatPointerUp = 3;
 	const uint HatPointerDown = 4;
-	const uint HatPointerRight = 5;
-	const uint HatPointerUp = 6;
+	const uint HatPointerLeft = 5;
+	const uint HatPointerRight = 6;
 
-	const uint BtnMiddle = 7;
-	const uint BtnThumb = 8;
 
-	const uint HatThumbPress = 9;
-	const uint __UnknownBtn = 10;
-	const uint HatThumbLeft = 11;
-	const uint HatThumbDown = 12;
-	const uint HatThumbRight = 13;
-	const uint HatThumbUp = 14;
+	const uint HatThumbPress = 7;
+	const uint HatThumbUp = 8;
+	const uint HatThumbDown = 9;
+	const uint HatThumbLeft = 10;
+	const uint HatThumbRight = 11;
 
-	const uint HatThumb2Right = 15;
-	const uint HatThumb2Down = 16;
-	const uint HatThumb2Left = 17;
-	const uint HatThumb2Up = 18;
+	const uint BtnThumb = 12;
 
-	const uint HatThumb3Right = 19;
-	const uint HatThumb3Down = 20;
-	const uint HatThumb3Left = 21;
-	const uint HatThumb3Up = 22;
+	const uint HatThumb2Up = 13;
+	const uint HatThumb2Down = 14;
+	const uint HatThumb2Left = 15;
+	const uint HatThumb2Right = 16;
 
-	const uint __UnknownBtn2 = 23;
-	const uint __UnknownBtn3 = 24;
-	const uint __UnknownBtn4 = 25;
-	const uint __UnknownBtn5 = 26;
+	const uint HatThumb3Up = 17;
+	const uint HatThumb3Down = 18;
+	const uint HatThumb3Left = 19;
+	const uint HatThumb3Right = 20;
 
-	const uint T2dwn = 27;
-	const uint T2up = 28;
+	const uint B1_1 = 21;
+	const uint B2_1 = 22;
+	const uint B3_1 = 23;
+	const uint B4_1 = 24;
+	const uint B5_1 = 25;
+	const uint B6_1 = 26;
+	const uint B7_1 = 27;
+	const uint B8_1 = 28;
 
-	const uint T3dwn = 29;
-	const uint T3up = 30;
+	const uint T1up = 29;
+	const uint T1LatchToggle = 30;
 
-	const uint T1dwn = 31;
-	const uint T1up = 32;
+	const uint T2Toggle = 31;
 
-	const uint _UnknownBtn6 = 33;
-	const uint _UnknownBtn7 = 34;
+	const uint T3Toggle = 32;
 
-	const uint B8 = 35;
-	const uint B7 = 36;
-	const uint B6 = 37;
-	const uint B5 = 38;
-	const uint B1 = 39;
-	const uint B2 = 40;
-	const uint B3 = 41;
-	const uint B4 = 42;
+	const uint T4up = 33;
+	const uint T4dwn = 34;
 
-	const uint T6up = 43;
-	const uint T5up = 44;
-	const uint T4up = 45;
-	const uint T4dwn = 46;
-	const uint T5dwn = 47;
-	const uint T6dwn = 48;
+	const uint T5up = 35;
+	const uint T5dwn = 36;
 
-	const uint BigRedBtn = 49;
+	const uint T6up = 37;
+	const uint T6dwn = 38;
 
-	const uint __UnknownBtn8 = 50;
+	const uint BigRedBtn = 39;
 
-	const uint E1Press = 51;
-	const uint E3Press = 52;
-	const uint E2Press = 53;
+	const uint E1Press = 40;
+	const uint E2Press = 41;
+	const uint E3Press = 42;
 
-	const uint ModeSelect1 = 54;
-	const uint ModeSelect2 = 55;
-	const uint ModeSelect3 = 56;
-	const uint ModeSelect4 = 57;
-	const uint ModeSelect5 = 58;
+	const uint E1Right = 43;
+	const uint E1Left = 44;
+
+	const uint E2Right = 45;
+	const uint E2Left = 46;
+
+	const uint E2Right = 47;
+	const uint E2Left = 48;
+
+	const uint B1_2 = 49;
+	const uint B2_2 = 50;
+	const uint B3_2 = 51;
+	const uint B4_2 = 52;
+	const uint B5_2 = 53;
+	const uint B6_2 = 54;
+	const uint B7_2 = 55;
+	const uint B8_2 = 56;
+
+	const uint B1_3 = 57;
+	const uint B2_3 = 58;
+	const uint B3_3 = 59;
+	const uint B4_3 = 60;
+	const uint B5_3 = 61;
+	const uint B6_3 = 62;
+	const uint B7_3 = 63;
+	const uint B8_3 = 64;
+
+	const uint B1_4 = 65;
+	const uint B2_4 = 66;
+	const uint B3_4 = 67;
+	const uint B4_4 = 68;
+	const uint B5_4 = 69;
+	const uint B6_4 = 70;
+	const uint B7_4 = 71;
+	const uint B8_4 = 72;
+
+	const uint B1_5 = 73;
+	const uint B2_5 = 74;
+	const uint B3_5 = 75;
+	const uint B4_5 = 76;
+	const uint B5_5 = 77;
+	const uint B6_5 = 78;
+	const uint B7_5 = 79;
+	const uint B8_5 = 80;
 };
 
 #endif

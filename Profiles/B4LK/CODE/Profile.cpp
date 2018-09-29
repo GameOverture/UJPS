@@ -137,14 +137,14 @@ Profile::~Profile()
 	// Cockpit
 	MapButton(m_pThrottle, THR::T1up, AllLayers, m_pVJoy1, SC1::Eject);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ExitSeat);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::SelfDestruct);
+	MapButton(m_pThrottle, THR::T1LatchToggle, AllLayers, m_pVJoy1, SC1::SelfDestruct);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::IncreaseCoolerRate);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::DecreaseCoolerRate);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::OpenAllDoors);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CloseAllDoors);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::LockAllDoors);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
+	MapButton(m_pThrottle, THR::B1, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
+	MapButton(m_pThrottle, THR::B3, AllLayers, m_pVJoy1, SC1::OpenAllDoors);
+	MapButton(m_pThrottle, THR::B4, AllLayers, m_pVJoy1, SC1::CloseAllDoors);
+	MapButton(m_pThrottle, THR::B8, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
+	MapButton(m_pThrottle, THR::B7, AllLayers, m_pVJoy1, SC1::LockAllDoors);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Camera
