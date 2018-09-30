@@ -43,24 +43,24 @@ namespace VirpilMongoost50Throttle_
 
 	const uint BtnThumb = 12;
 
-	const uint HatThumb2Up = 13;
-	const uint HatThumb2Down = 14;
-	const uint HatThumb2Left = 15;
-	const uint HatThumb2Right = 16;
+	const uint HatThumbFarUp = 13;
+	const uint HatThumbFarDown = 14;
+	const uint HatThumbFarLeft = 15;
+	const uint HatThumbFarRight = 16;
 
-	const uint HatThumb3Up = 17;
-	const uint HatThumb3Down = 18;
-	const uint HatThumb3Left = 19;
-	const uint HatThumb3Right = 20;
+	const uint HatThumbCloseUp = 17;
+	const uint HatThumbCloseDown = 18;
+	const uint HatThumbCloseLeft = 19;
+	const uint HatThumbCloseRight = 20;
 
-	const uint B1_1 = 21;
-	const uint B2_1 = 22;
-	const uint B3_1 = 23;
-	const uint B4_1 = 24;
-	const uint B5_1 = 25;
-	const uint B6_1 = 26;
-	const uint B7_1 = 27;
-	const uint B8_1 = 28;
+	const uint B1 = 21;
+	const uint B2 = 22;
+	const uint B3 = 23;
+	const uint B4 = 24;
+	const uint B5 = 25;
+	const uint B6 = 26;
+	const uint B7 = 27;
+	const uint B8 = 28;
 
 	const uint T1up = 29;
 	const uint T1LatchToggle = 30;
@@ -128,6 +128,19 @@ namespace VirpilMongoost50Throttle_
 	const uint B6_5 = 78;
 	const uint B7_5 = 79;
 	const uint B8_5 = 80;
+
+	const uint B3_5 = 75;
+	const uint B4_5 = 76;
+	const uint B5_5 = 77;
+	const uint B6_5 = 78;
+	const uint B7_5 = 79;
+	const uint B8_5 = 80;
+
+	const uint Mode1 = 81;
+	const uint Mode2 = 82;
+	const uint Mode3 = 83;
+	const uint Mode4 = 84;
+	const uint Mode5 = 85;
 };
 
 #endif

@@ -40,6 +40,7 @@ private:
 	virtual bool setupJoysticks() override final;
 	virtual void runFirstStep() override final;
 
+	void DoThrMode(uint uiMode);
 	void DoStick();
 	void DoStrafe();
 	void DoToeBrake();

@@ -133,14 +133,20 @@ Profile::~Profile()
 	m_pPedals->setSCurve(RUD::RUDDER, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f);
 	m_pPedals->setAxisInverted(RUD::RUDDER, true);
 
+	Map(m_pThrottle, ControlType::Button, THR::Mode1, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(1); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode2, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(2); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode3, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(3); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode4, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(4); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode5, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(5); }));
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Cockpit
 	MapButton(m_pThrottle, THR::T1up, AllLayers, m_pVJoy1, SC1::Eject);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ExitSeat);
+	//MapButton(m_pThrottle, THR::B1, AllLayers, m_pVJoy1, SC1::ExitSeat);
 	MapButton(m_pThrottle, THR::T1LatchToggle, AllLayers, m_pVJoy1, SC1::SelfDestruct);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::IncreaseCoolerRate);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::DecreaseCoolerRate);
-	MapButton(m_pThrottle, THR::B1, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
+	MapButton(m_pThrottle, THR::T4up, AllLayers, m_pVJoy1, SC1::IncreaseCoolerRate);
+	MapButton(m_pThrottle, THR::T4dwn, AllLayers, m_pVJoy1, SC1::DecreaseCoolerRate);
+	MapButton(m_pThrottle, THR::B2, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
 	MapButton(m_pThrottle, THR::B3, AllLayers, m_pVJoy1, SC1::OpenAllDoors);
 	MapButton(m_pThrottle, THR::B4, AllLayers, m_pVJoy1, SC1::CloseAllDoors);
 	MapButton(m_pThrottle, THR::B8, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
@@ -148,40 +154,40 @@ Profile::~Profile()
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Camera
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CycleCameraView);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::CycleCameraOrbitMode);
-	MapButton(m_pThrottle, THR::SPDB, AllLayers, m_pVJoy1, SC1::LookBehind);
+	MapButton(m_pThrottle, THR::E1Press, AllLayers, m_pVJoy1, SC1::CycleCameraView);
+	MapButton(m_pThrottle, THR::E2Press, AllLayers, m_pVJoy1, SC1::CycleCameraOrbitMode);
+	MapButton(m_pThrottle, THR::BtnMiddle, AllLayers, m_pVJoy1, SC1::LookBehind);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Propulsion
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Spacebrake);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::MatchTargetVelocity);
-	MapButton(m_pThrottle, THR::LTB, AllLayers, m_pVJoy1, SC1::ToggleDecoupledMode);
-	MapButton(m_pMcgPro, JOY::HatGripRight, AllLayers, m_pVJoy1, SC1::CycleIFCS);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleGForceSafety);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleCOMSTAB);
-	MapButton(m_pMcgPro, JOY::HatGripPress, AllLayers, m_pVJoy1, SC1::ToggleESP);
-	MapButton(m_pThrottle, THR::SPDF, AllLayers, m_pVJoy1, SC1::Afterburner);
-	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Boost);
-	MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
+	//MapButton(m_pPedals, RUD::BRK_LEFT, AllLayers, m_pVJoy1, SC1::Spacebrake);
+	MapButton(m_pThrottle, THR::BtnThumb, AllLayers, m_pVJoy1, SC1::MatchTargetVelocity);
+	MapButton(m_pThrottle, THR::BtnPinkyBack, AllLayers, m_pVJoy1, SC1::ToggleDecoupledMode);
+	MapButton(m_pThrottle, THR::HatThumbFarUp, AllLayers, m_pVJoy1, SC1::CycleIFCS);
+	MapButton(m_pThrottle, THR::HatThumbFarLeft, AllLayers, m_pVJoy1, SC1::ToggleGForceSafety);
+	MapButton(m_pThrottle, THR::HatThumbFarRight, AllLayers, m_pVJoy1, SC1::ToggleCOMSTAB);
+	MapButton(m_pThrottle, THR::HatThumbFarDown, AllLayers, m_pVJoy1, SC1::ToggleESP);
+	MapButton(m_pThrottle, THR::BtnPinky, AllLayers, m_pVJoy1, SC1::Afterburner);
+	//MapButton(m_pPedals, RUD::BRK_RIGHT, AllLayers, m_pVJoy1, SC1::Boost);
+	//MapButton(m_pThrottle, THR::BigRedButton, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
 	//MapButton(m_pThrottle, THR::LDGH, AllLayers, m_pVJoy1, SC1::Autoland);
-	MapButton(m_pThrottle, THR::EOLIGN, AllLayers, m_pVJoy1, SC1::ToggleQuantumTravelSystem);
-	MapButton(m_pThrottle, THR::EORIGN, AllLayers, m_pVJoy1, SC1::QuantumDrive);
+	MapButton(m_pThrottle, THR::HatThumbUp, AllLayers, m_pVJoy1, SC1::ToggleQuantumTravelSystem);
+	MapButton(m_pThrottle, THR::HatThumbPress, AllLayers, m_pVJoy1, SC1::QuantumDrive);
 	
 	Map(m_pMcgPro, ControlType::Axis, JOY::JOYX, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStick(); }));
 	Map(m_pMcgPro, ControlType::Axis, JOY::JOYY, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStick(); }));
 	MapAxis(m_pPedals, RUD::RUDDER, AllLayers, m_pVJoy1, SC1::AxisFlightRoll);
 
 	Map(m_pMcgPro, ControlType::Axis, JOY::BRAKE, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Axis, THR::THR_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::MSR, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::MSL, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::CSU, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
-	Map(m_pThrottle, ControlType::Button, THR::CSD, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Axis, THR::THR_RIGHT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatThumbRight, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatThumbRight, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatThumbLeft, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatThumbLeft, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatPointerUp, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatPointerUp, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatPointerDown, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoStrafe(); }));
+	Map(m_pThrottle, ControlType::Button, THR::HatPointerDown, AllLayers, new TriggerButtonRelease, new ActionCallback([this]() { DoStrafe(); }));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Targeting
@@ -247,7 +253,7 @@ Profile::~Profile()
 	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset1);
 	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset2);
 	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePowerPreset3);
-	//MapButton(m_pMcgPro, JOY::BtnTopRight, AllLayers, m_pVJoy2, SC2::TogglePower);
+	MapButton(m_pThrottle, THR::B1, AllLayers, m_pVJoy2, SC2::TogglePower);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Radar
@@ -274,6 +280,31 @@ Profile::~Profile()
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 }
 
+void Profile::DoThrMode(uint uiMode)
+{
+	switch(uiMode)
+	{
+		
+	case 1: {
+		ActionButtonPulse action(m_pVJoy2, SC2::TogglePower, m_uiPULSE_AMT);
+		DoAction(&action, false);
+		break; }
+
+	case 2: {
+		UnmapButton(m_pThrottle, THR::BigRedBtn);
+		MapButton(m_pThrottle, THR::BigRedBtn, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
+
+		ActionButtonPulse action(m_pVJoy1, SC1::FlightSystemsReady, m_uiPULSE_AMT);
+		DoAction(&action, false);
+		break; }
+
+	case 3:
+		UnmapButton(m_pThrottle, THR::BigRedBtn);
+		MapButton(m_pThrottle, THR::BigRedBtn, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
+		break;
+	}
+}
+
 void Profile::DoStick()
 {
 	m_pVJoy1->setAxis(SC1::AxisFlightYaw, m_pMcgPro->axisValue(JOY::JOYX));
@@ -282,10 +313,30 @@ void Profile::DoStick()
 
 void Profile::DoStrafe()
 {
+	float fSliderValue = 1.0f;
+	if(m_pThrottle->buttonPressed(THR::Mode2))
+	{
+		fSliderValue = m_pThrottle->axisValue(THR::AUX_AXIS);
+		fSliderValue = (fSliderValue * -0.5f) + 0.5f; // Normalize [0.0 - 1.0]
+		if(fSliderValue < 0.01f)
+			fSliderValue = 0.01f;
+	}
+
 	if(m_pMcgPro->axisValue(JOY::BRAKE) == -1.0f)
 	{
-		m_pVJoy1->setAxis(SC1::AxisFlightThrottle, m_pThrottle->axisValue(THR::THR_LEFT));
-		m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, 0.0f);
+		if(m_pThrottle->buttonPressed(THR::Mode2))
+		{
+			m_pVJoy1->setAxis(SC1::AxisFlightThrottle, 1.0f);
+
+			float fPrecisionThrottleAmt = m_pThrottle->axisValue(THR::THR_RIGHT);
+			fPrecisionThrottleAmt = (fPrecisionThrottleAmt * fSliderValue) * 0.5f;
+			m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, fPrecisionThrottleAmt);
+		}
+		else
+		{
+			m_pVJoy1->setAxis(SC1::AxisFlightThrottle, m_pThrottle->axisValue(THR::THR_RIGHT));
+			m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, 0.0f);
+		}
 	}
 	else
 	{
@@ -295,26 +346,18 @@ void Profile::DoStrafe()
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeFwdBck, (1.0f - fReverseThrottleAmt) * -1.0f);
 	}
 
-	float fSliderValue = 1.0f;
-
-	if(m_pThrottle->buttonPressed(THR::FLAPD))
-	{
-		fSliderValue = m_pThrottle->axisValue(THR::THR_FC);
-		fSliderValue = (fSliderValue * -0.5f) + 0.5f; // Normalize [0.0 - 1.0]
-	}
-
 	// LEFT / RIGHT
-	if(m_pThrottle->buttonPressed(THR::MSL))
+	if(m_pThrottle->buttonPressed(THR::HatThumbLeft))
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue * -1.0f);
-	else if(m_pThrottle->buttonPressed(THR::MSR))
+	else if(m_pThrottle->buttonPressed(THR::HatThumbRight))
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, fSliderValue);
 	else
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeLeftRight, 0.0f);
 
 	// UP / DOWN
-	if(m_pThrottle->buttonPressed(THR::CSD))
+	if(m_pThrottle->buttonPressed(THR::HatPointerDown))
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue * -1.0f);
-	else if(m_pThrottle->buttonPressed(THR::CSU))
+	else if(m_pThrottle->buttonPressed(THR::HatPointerUp))
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeUpDown, fSliderValue);
 	else
 		m_pVJoy1->setAxis(SC1::AxisFlightStrafeUpDown, 0.0f);
@@ -325,15 +368,14 @@ void Profile::DoToeBrake()
 	float fRightVal = m_pPedals->axisValue(RUD::BRK_RIGHT);
 	float fLeftVal = m_pPedals->axisValue(RUD::BRK_LEFT);
 
-	if(m_pThrottle->buttonPressed(THR::PSF)) // On foot mode
+	if(m_pThrottle->buttonPressed(THR::Mode1)) // On foot mode
 	{
+		// Leaning
 		m_pVJoy2->setButton(SC2::LeanLeft, fLeftVal >= 0.0f);
 		m_pVJoy2->setButton(SC2::LeanRight, fRightVal >= 0.0f);
-	}
-	else if(m_pThrottle->buttonPressed(THR::PSB)) // Vehicle mode
-	{
+
+		// Ground Vehicles
 		m_pVJoy2->setButton(SC2::VehicleBrake, fLeftVal >= 0.0f);
-		
 		fRightVal = (fRightVal * -0.5f) + 0.5f; // Normailize [0.0 - 1.0]
 		m_pVJoy2->setAxis(SC2::AxisVehicleFwdBck, fRightVal);
 	}
