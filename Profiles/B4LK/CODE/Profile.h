@@ -26,6 +26,8 @@ class Profile : public AbstractProfile
 	VirtualJoystick *	m_pVJoy1;
 	VirtualJoystick *	m_pVJoy2;
 
+	uint				m_uiPreviousMode;
+
 public:
 	Profile();
 	Profile(const Profile &other) = delete;
@@ -39,6 +41,8 @@ public:
 private:
 	virtual bool setupJoysticks() override final;
 	virtual void runFirstStep() override final;
+
+	void PulseBtn(VirtualJoystick *vj, uint vButton);
 
 	void DoThrMode(uint uiMode);
 	void DoStick();

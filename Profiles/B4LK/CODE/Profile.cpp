@@ -41,7 +41,8 @@ Profile::Profile() :	AbstractProfile(),
 						m_pPedals(nullptr),				// Saitek Pro Flight Combat Rudder Pedals
 						m_pG13(nullptr),
 						m_pVJoy1(nullptr),
-						m_pVJoy2(nullptr)
+						m_pVJoy2(nullptr),
+						m_uiPreviousMode(0)
 {
 }
 
@@ -133,11 +134,11 @@ Profile::~Profile()
 	m_pPedals->setSCurve(RUD::RUDDER, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f);
 	m_pPedals->setAxisInverted(RUD::RUDDER, true);
 
-	Map(m_pThrottle, ControlType::Button, THR::Mode1, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(1); }));
-	Map(m_pThrottle, ControlType::Button, THR::Mode2, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(2); }));
-	Map(m_pThrottle, ControlType::Button, THR::Mode3, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(3); }));
-	Map(m_pThrottle, ControlType::Button, THR::Mode4, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(4); }));
-	Map(m_pThrottle, ControlType::Button, THR::Mode5, AllLayers, new TriggerButtonState(true), new ActionCallback([this]() { DoThrMode(5); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode1, AllLayers, new TriggerButtonPress(), new ActionCallback([this]() { DoThrMode(1); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode2, AllLayers, new TriggerButtonPress(), new ActionCallback([this]() { DoThrMode(2); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode3, AllLayers, new TriggerButtonPress(), new ActionCallback([this]() { DoThrMode(3); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode4, AllLayers, new TriggerButtonPress(), new ActionCallback([this]() { DoThrMode(4); }));
+	Map(m_pThrottle, ControlType::Button, THR::Mode5, AllLayers, new TriggerButtonPress(), new ActionCallback([this]() { DoThrMode(5); }));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Cockpit
@@ -149,8 +150,8 @@ Profile::~Profile()
 	MapButton(m_pThrottle, THR::B2, AllLayers, m_pVJoy1, SC1::FlightSystemsReady);
 	MapButton(m_pThrottle, THR::B3, AllLayers, m_pVJoy1, SC1::OpenAllDoors);
 	MapButton(m_pThrottle, THR::B4, AllLayers, m_pVJoy1, SC1::CloseAllDoors);
-	MapButton(m_pThrottle, THR::B8, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
-	MapButton(m_pThrottle, THR::B7, AllLayers, m_pVJoy1, SC1::LockAllDoors);
+	MapButton(m_pThrottle, THR::B8, AllLayers, m_pVJoy1, SC1::LockAllDoors);
+	MapButton(m_pThrottle, THR::B7, AllLayers, m_pVJoy1, SC1::UnlockAllDoors);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Camera
@@ -280,29 +281,35 @@ Profile::~Profile()
 	Map(m_pPedals, ControlType::Axis, RUD::BRK_LEFT, AllLayers, new TriggerAxisChange, new ActionCallback([this]() { DoToeBrake(); }));
 }
 
+void Profile::PulseBtn(VirtualJoystick *vj, uint vButton)
+{
+	ActionButtonPulse action(vj, vButton, m_uiPULSE_AMT);
+	DoAction(&action, false);
+}
+
 void Profile::DoThrMode(uint uiMode)
 {
 	switch(uiMode)
 	{
-		
-	case 1: {
-		ActionButtonPulse action(m_pVJoy2, SC2::TogglePower, m_uiPULSE_AMT);
-		DoAction(&action, false);
-		break; }
+	case 1:
+		PulseBtn(m_pVJoy2, SC2::TogglePower);
+		break;
 
-	case 2: {
+	case 2:
+		if(m_uiPreviousMode == 1)
+			PulseBtn(m_pVJoy1, SC1::FlightSystemsReady);
+		
 		UnmapButton(m_pThrottle, THR::BigRedBtn);
 		MapButton(m_pThrottle, THR::BigRedBtn, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
-
-		ActionButtonPulse action(m_pVJoy1, SC1::FlightSystemsReady, m_uiPULSE_AMT);
-		DoAction(&action, false);
-		break; }
+		break;
 
 	case 3:
 		UnmapButton(m_pThrottle, THR::BigRedBtn);
 		MapButton(m_pThrottle, THR::BigRedBtn, AllLayers, m_pVJoy1, SC1::ToggleLandingGear);
 		break;
 	}
+
+	m_uiPreviousMode = uiMode;
 }
 
 void Profile::DoStick()

@@ -90,8 +90,8 @@ namespace VirpilMongoost50Throttle_
 	const uint E2Right = 45;
 	const uint E2Left = 46;
 
-	const uint E2Right = 47;
-	const uint E2Left = 48;
+	const uint E3Right = 47;
+	const uint E3Left = 48;
 
 	const uint B1_2 = 49;
 	const uint B2_2 = 50;
@@ -122,13 +122,6 @@ namespace VirpilMongoost50Throttle_
 
 	const uint B1_5 = 73;
 	const uint B2_5 = 74;
-	const uint B3_5 = 75;
-	const uint B4_5 = 76;
-	const uint B5_5 = 77;
-	const uint B6_5 = 78;
-	const uint B7_5 = 79;
-	const uint B8_5 = 80;
-
 	const uint B3_5 = 75;
 	const uint B4_5 = 76;
 	const uint B5_5 = 77;
