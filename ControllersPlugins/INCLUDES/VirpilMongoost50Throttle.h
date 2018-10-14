@@ -23,8 +23,6 @@ namespace VirpilMongoost50Throttle_
 	const uint DIAL_A1 = 5;
 
 	// Buttons
-	const uint BtnLatch = 99;
-	
 	const uint BtnPinkyBack = 0;
 	const uint BtnPinky = 1;
 	const uint BtnMiddle = 2;
@@ -65,9 +63,9 @@ namespace VirpilMongoost50Throttle_
 	const uint T1up = 29;
 	const uint T1LatchToggle = 30;
 
-	const uint T2Toggle = 31;
+	const uint T2down = 31;
 
-	const uint T3Toggle = 32;
+	const uint T3down = 32;
 
 	const uint T4up = 33;
 	const uint T4dwn = 34;
@@ -93,47 +91,13 @@ namespace VirpilMongoost50Throttle_
 	const uint E3Right = 47;
 	const uint E3Left = 48;
 
-	const uint B1_2 = 49;
-	const uint B2_2 = 50;
-	const uint B3_2 = 51;
-	const uint B4_2 = 52;
-	const uint B5_2 = 53;
-	const uint B6_2 = 54;
-	const uint B7_2 = 55;
-	const uint B8_2 = 56;
+	const uint Mode1 = 49;
+	const uint Mode2 = 50;
+	const uint Mode3 = 51;
+	const uint Mode4 = 52;
+	const uint Mode5 = 53;
 
-	const uint B1_3 = 57;
-	const uint B2_3 = 58;
-	const uint B3_3 = 59;
-	const uint B4_3 = 60;
-	const uint B5_3 = 61;
-	const uint B6_3 = 62;
-	const uint B7_3 = 63;
-	const uint B8_3 = 64;
-
-	const uint B1_4 = 65;
-	const uint B2_4 = 66;
-	const uint B3_4 = 67;
-	const uint B4_4 = 68;
-	const uint B5_4 = 69;
-	const uint B6_4 = 70;
-	const uint B7_4 = 71;
-	const uint B8_4 = 72;
-
-	const uint B1_5 = 73;
-	const uint B2_5 = 74;
-	const uint B3_5 = 75;
-	const uint B4_5 = 76;
-	const uint B5_5 = 77;
-	const uint B6_5 = 78;
-	const uint B7_5 = 79;
-	const uint B8_5 = 80;
-
-	const uint Mode1 = 81;
-	const uint Mode2 = 82;
-	const uint Mode3 = 83;
-	const uint Mode4 = 84;
-	const uint Mode5 = 85;
+	const uint BtnLatch = 54;
 };
 
 #endif
